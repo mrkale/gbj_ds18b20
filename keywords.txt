@@ -1,0 +1,70 @@
+#######################################
+# Syntax Coloring Map
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+gbj_ds18b20	KEYWORD1
+gbj_ds18b20::Address	KEYWORD1
+gbj_ds18b20::Handler	KEYWORD1
+gbj_ds18b20::Scratchpad	KEYWORD1
+gbj_ds18b20::Serial KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+alarms	KEYWORD2
+cacheAlarmHigh	KEYWORD2
+cacheAlarmLow	KEYWORD2
+cacheAlarmReset	KEYWORD2
+cacheResolution_10bits	KEYWORD2
+cacheResolution_11bits	KEYWORD2
+cacheResolution_12bits	KEYWORD2
+cacheResolution_9bits	KEYWORD2
+cacheResolutionReset	KEYWORD2
+conversion	KEYWORD2
+cpyAddress	KEYWORD2
+cpyScratchpad	KEYWORD2
+cpySerial	KEYWORD2
+getAlarmHigh	KEYWORD2
+getAlarmLow	KEYWORD2
+getDevices	KEYWORD2
+getFamilyCode	KEYWORD2
+getId	KEYWORD2
+getLastResult	KEYWORD2
+getPin	KEYWORD2
+getResolution	KEYWORD2
+getResolutionBits	KEYWORD2
+getResolutionTemp	KEYWORD2
+getSensors	KEYWORD2
+getTemperature	KEYWORD2
+getTemperatureIni	KEYWORD2
+getTemperatureMax	KEYWORD2
+getTemperatureMin	KEYWORD2
+isAlarm	KEYWORD2
+isAlarmHigh	KEYWORD2
+isAlarmLow	KEYWORD2
+isError	KEYWORD2
+isPowerExternal	KEYWORD2
+isPowerParasite	KEYWORD2
+isSuccess	KEYWORD2
+measureTemperature	KEYWORD2
+sensors	KEYWORD2
+setCache	KEYWORD2
+setLastResult	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+gbj_ds18b20::ADDRESS_LEN	LITERAL1
+gbj_ds18b20::SERIAL_LEN	LITERAL1
+gbj_ds18b20::SCRATCHPAD_LEN	LITERAL1
+gbj_ds18b20::SUCCESS	LITERAL1
+gbj_ds18b20::END_OF_LIST	LITERAL1
+gbj_ds18b20::ERROR_CRC_ADDRESS	LITERAL1
+gbj_ds18b20::ERROR_CRC_SCRATCHPAD	LITERAL1
+gbj_ds18b20::ERROR_NO_DEVICE	LITERAL1
+gbj_ds18b20::ERROR_NO_ALARM	LITERAL1
+gbj_ds18b20::ERROR_ALARM_LOW	LITERAL1
+gbj_ds18b20::ERROR_ALARM_HIGH	LITERAL1
