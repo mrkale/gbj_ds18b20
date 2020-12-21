@@ -3,7 +3,8 @@
   Temperature measurement by a single DS18B20 sensor with provided address.
 
   DESCRIPTION:
-  The sketch uses definite sensor for measurement identified by provided address.
+  The sketch uses definite sensor for measurement identified by provided ROM.
+  - Replace sensor's ROM in the sketch with your current one.
   - The sketch provides the scratchpad memory dump for better observing sensors.
 
   LICENSE:
@@ -15,13 +16,13 @@
 */
 #include "gbj_ds18b20.h"
 
-#define SKETCH "GBJ_DS18B20_SINGLE 1.0.0"
+#define SKETCH "GBJ_DS18B20_SINGLE 1.0.1"
 
 const unsigned char PIN_DS18B20 = 4; // Pin for one-wire bus
 
 gbj_ds18b20 ds = gbj_ds18b20(PIN_DS18B20);
 gbj_ds18b20::Address address = {
-  0x28, 0xBB, 0xA0, 0x6E, 0x06, 0x00, 0x00, 0x86
+  0x28, 0xBB, 0xA0, 0x6E, 0x06, 0x00, 0x00, 0x86 // Replace with current one
 };
 gbj_ds18b20::Serial serial;
 gbj_ds18b20::Scratchpad scratchpad;
@@ -81,16 +82,16 @@ void errorHandler()
       Serial.println("END_OF_LIST");
       break;
 
+    case gbj_ds18b20::ERROR_NO_DEVICE:
+      Serial.println("ERROR_NO_DEVICE");
+      break;
+
     case gbj_ds18b20::ERROR_CRC_ADDRESS:
       Serial.println("ERROR_CRC_ADDRESS");
       break;
 
     case gbj_ds18b20::ERROR_CRC_SCRATCHPAD:
       Serial.println("ERROR_CRC_SCRATCHPAD");
-      break;
-
-    case gbj_ds18b20::ERROR_NO_DEVICE:
-      Serial.println("ERROR_NO_DEVICE");
       break;
 
     default:

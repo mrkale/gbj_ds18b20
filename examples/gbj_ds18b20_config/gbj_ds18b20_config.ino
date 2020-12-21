@@ -15,7 +15,7 @@
 */
 #include "gbj_ds18b20.h"
 
-#define SKETCH "GBJ_DS18B20_CONFIG 1.0.0"
+#define SKETCH "GBJ_DS18B20_CONFIG 1.0.1"
 
 const unsigned char PIN_DS18B20 = 4; // Pin for one-wire bus
 
@@ -64,16 +64,16 @@ void errorHandler()
       Serial.println("END_OF_LIST");
       break;
 
+    case gbj_ds18b20::ERROR_NO_DEVICE:
+      Serial.println("ERROR_NO_DEVICE");
+      break;
+
     case gbj_ds18b20::ERROR_CRC_ADDRESS:
       Serial.println("ERROR_CRC_ADDRESS");
       break;
 
     case gbj_ds18b20::ERROR_CRC_SCRATCHPAD:
       Serial.println("ERROR_CRC_SCRATCHPAD");
-      break;
-
-    case gbj_ds18b20::ERROR_NO_DEVICE:
-      Serial.println("ERROR_NO_DEVICE");
       break;
 
     default:

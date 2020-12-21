@@ -1,5 +1,5 @@
 #include "gbj_ds18b20.h"
-const String gbj_ds18b20::VERSION = "GBJ_DS18B20 1.0.0";
+const String gbj_ds18b20::VERSION = "GBJ_DS18B20 1.0.1";
 
 gbj_ds18b20::ResultCodes gbj_ds18b20::powering()
 {
@@ -19,7 +19,6 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::devices()
   _bus.sensors = 0;
   while (search(_rom.buffer))
   {
-    // Check ROM CRC
     if (_rom.address.crc != crc8(_rom.buffer, Params::ADDRESS_LEN - 1))
       return setLastResult(ResultCodes::ERROR_CRC_ADDRESS);
     _bus.devices++;
