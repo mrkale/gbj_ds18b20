@@ -16,8 +16,9 @@
 */
 #include "gbj_ds18b20.h"
 
-#define SKETCH "GBJ_DS18B20_SINGLE 1.0.2"
+#define SKETCH "GBJ_DS18B20_SINGLE 1.1.0"
 
+const unsigned int PERIOD_MEASURE = 3000; // Miliseconds between measurements
 const unsigned char PIN_DS18B20 = 4; // Pin for one-wire bus
 
 gbj_ds18b20 ds = gbj_ds18b20(PIN_DS18B20);
@@ -117,14 +118,26 @@ void setup()
     Serial.println("Resolution: 0b" + String(ds.getResolution(), BIN) + ", " +
                    String(ds.getResolutionBits()) + " bits" + ", " +
                    String(ds.getResolutionTemp(), 4) + " 'C");
-    Serial.println("Temperature: " + String(ds.getTemperature(), 4) + " 'C");
-    Serial.println("Alarm Low: " + String(ds.getAlarmLow()) + " 'C");
-    Serial.println("Alarm High: " + String(ds.getAlarmHigh()) + " 'C");
+    ds.cpyScratchpad(scratchpad);
+    Serial.println("Scratchpad: " + String(textScratchpad(scratchpad)));
+    Serial.println("Temperature: " + String(ds.getTemperature(), 2) + " 'C");
+    Serial.println("---");
   }
-  ds.cpyScratchpad(scratchpad);
-  Serial.println("Scratchpad: " + String(textScratchpad(scratchpad)));
-  Serial.println("---");
-  errorHandler();
+  else
+  {
+    errorHandler();
+  }
 }
 
-void loop() {}
+void loop()
+{
+  if (ds.isSuccess(ds.measureTemperature(address)))
+  {
+    Serial.println("Temperature: " + String(ds.getTemperature(), 2) + " 'C");
+  }
+  else
+  {
+    errorHandler();
+  }
+  delay(PERIOD_MEASURE);
+}
