@@ -3,7 +3,7 @@
   Configure DS18B20 temperature sensors on the one-wire bus.
 
   DESCRIPTION:
-  The sketch updates scratchpad of each active sensors with alarm values
+  The sketch updates scratchpad of each of active sensors with alarm values
   and resolution.
 
   LICENSE:
@@ -15,13 +15,14 @@
 */
 #include "gbj_ds18b20.h"
 
-#define SKETCH "GBJ_DS18B20_CONFIG 1.0.1"
+#define SKETCH "GBJ_DS18B20_CONFIG 1.1.0"
 
 const unsigned char PIN_DS18B20 = 4; // Pin for one-wire bus
 
 gbj_ds18b20 ds = gbj_ds18b20(PIN_DS18B20);
 gbj_ds18b20::Address address;
 gbj_ds18b20::Serial serial;
+gbj_ds18b20::Scratchpad scratchpad;
 char buffer[50];
 
 String textAddress(gbj_ds18b20::Address address)
@@ -45,8 +46,22 @@ String textSerial(gbj_ds18b20::Serial serial)
   for (byte i = 0; i < gbj_ds18b20::SERIAL_LEN; i++)
   {
     if (i)
-      text += ".";
+      text += ":";
     sprintf(data, "%02X", serial[i]);
+    text += data;
+  }
+  return text;
+}
+
+String textScratchpad(gbj_ds18b20::Scratchpad scratchpad)
+{
+  String text = "";
+  char data[3];
+  for (byte i = 0; i < gbj_ds18b20::SCRATCHPAD_LEN; i++)
+  {
+    if (i)
+      text += ".";
+    sprintf(data, "%02X", scratchpad[i]);
     text += data;
   }
   return text;
@@ -99,19 +114,19 @@ void setup()
   uint8_t deviceNum = 0;
   while (ds.isSuccess(ds.sensors()))
   {
-    // Setup sensor to cache
+    // Setup sensor to cache (replace ids with your current ones)
     switch (ds.getId())
     {
-      case 0x86 /* Top sensor */:
+      case 0x86:
         ds.cacheResolution_10bits();
-        ds.cacheAlarmLow(19.0);
-        ds.cacheAlarmHigh(21.0);
+        ds.cacheAlarmLow(-9);
+        ds.cacheAlarmHigh(+2);
         break;
 
-      case 0x6c /* Bottom sensor */:
+      case 0x6c:
         ds.cacheResolution_9bits();
-        ds.cacheAlarmLow(25.0);
-        ds.cacheAlarmHigh(29.0);
+        ds.cacheAlarmLow(25);
+        ds.cacheAlarmHigh(29);
         break;
 
       default:
@@ -124,14 +139,16 @@ void setup()
     {
       ds.cpyAddress(address);
       ds.cpySerial(serial);
+      ds.cpyScratchpad(scratchpad);
       Serial.println(String(++deviceNum) + ". Id: " + String(ds.getId(), HEX));
       Serial.println("Address: " + String(textAddress(address)));
       Serial.println("Serial: " + String(textSerial(serial)));
+      Serial.println("Scratchpad: " + String(textScratchpad(scratchpad)));
       Serial.println("Resolution: 0b" + String(ds.getResolution(), BIN) + ", " +
                      String(ds.getResolutionBits()) + " bits" + ", " +
                      String(ds.getResolutionTemp(), 4) + " 'C");
-      Serial.println("Alarm Low: " + String(ds.getAlarmLow(), 1) + " 'C");
-      Serial.println("Alarm High: " + String(ds.getAlarmHigh(), 1) + " 'C");
+      Serial.println("Alarm Low: " + String(ds.getAlarmLow()) + " 'C");
+      Serial.println("Alarm High: " + String(ds.getAlarmHigh()) + " 'C");
       Serial.println("---");
     }
   }

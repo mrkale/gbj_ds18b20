@@ -1,5 +1,5 @@
 #include "gbj_ds18b20.h"
-const String gbj_ds18b20::VERSION = "GBJ_DS18B20 1.0.1";
+const String gbj_ds18b20::VERSION = "GBJ_DS18B20 1.0.0";
 
 gbj_ds18b20::ResultCodes gbj_ds18b20::powering()
 {

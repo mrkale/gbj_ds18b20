@@ -16,7 +16,7 @@
 */
 #include "gbj_ds18b20.h"
 
-#define SKETCH "GBJ_DS18B20_SINGLE 1.0.1"
+#define SKETCH "GBJ_DS18B20_SINGLE 1.0.2"
 
 const unsigned char PIN_DS18B20 = 4; // Pin for one-wire bus
 
@@ -49,7 +49,7 @@ String textSerial(gbj_ds18b20::Serial serial)
   for (byte i = 0; i < gbj_ds18b20::SERIAL_LEN; i++)
   {
     if (i)
-      text += ".";
+      text += ":";
     sprintf(data, "%02X", serial[i]);
     text += data;
   }
@@ -63,7 +63,7 @@ String textScratchpad(gbj_ds18b20::Scratchpad scratchpad)
   for (byte i = 0; i < gbj_ds18b20::SCRATCHPAD_LEN; i++)
   {
     if (i)
-      text += ":";
+      text += ".";
     sprintf(data, "%02X", scratchpad[i]);
     text += data;
   }
@@ -118,8 +118,8 @@ void setup()
                    String(ds.getResolutionBits()) + " bits" + ", " +
                    String(ds.getResolutionTemp(), 4) + " 'C");
     Serial.println("Temperature: " + String(ds.getTemperature(), 4) + " 'C");
-    Serial.println("Alarm Low: " + String(ds.getAlarmLow(), 1) + " 'C");
-    Serial.println("Alarm High: " + String(ds.getAlarmHigh(), 1) + " 'C");
+    Serial.println("Alarm Low: " + String(ds.getAlarmLow()) + " 'C");
+    Serial.println("Alarm High: " + String(ds.getAlarmHigh()) + " 'C");
   }
   ds.cpyScratchpad(scratchpad);
   Serial.println("Scratchpad: " + String(textScratchpad(scratchpad)));

@@ -16,7 +16,7 @@
 */
 #include "gbj_ds18b20.h"
 
-#define SKETCH "GBJ_DS18B20_ALARMS_HANDLERS 1.0.1"
+#define SKETCH "GBJ_DS18B20_ALARMS_HANDLERS 1.1.0"
 
 const unsigned int PERIOD_MEASURE = 3000; // Miliseconds between measurements
 const unsigned char PIN_DS18B20 = 4; // Pin for one-wire bus
@@ -50,7 +50,7 @@ String textSerial(gbj_ds18b20::Serial serial)
   for (byte i = 0; i < gbj_ds18b20::SERIAL_LEN; i++)
   {
     if (i)
-      text += ".";
+      text += ":";
     sprintf(data, "%02X", serial[i]);
     text += data;
   }
@@ -102,7 +102,7 @@ void errorHandler()
 void alarmHandlerLow()
 {
   Serial.println("Id: " + String(ds.getId(), HEX));
-  Serial.println("Alarm Low: " + String(ds.getAlarmLow(), 1) + " 'C");
+  Serial.println("Alarm Low: " + String(ds.getAlarmLow()) + " 'C");
   Serial.println("Temperature: " + String(ds.getTemperature(), 4) + " 'C");
   Serial.println("---");
 }
@@ -110,7 +110,7 @@ void alarmHandlerLow()
 void alarmHandlerHigh()
 {
   Serial.println("Id: " + String(ds.getId(), HEX));
-  Serial.println("Alarm High: " + String(ds.getAlarmHigh(), 1) + " 'C");
+  Serial.println("Alarm High: " + String(ds.getAlarmHigh()) + " 'C");
   Serial.println("Temperature: " + String(ds.getTemperature(), 4) + " 'C");
   Serial.println("---");
 }
@@ -137,14 +137,14 @@ void setup()
     {
       case 0x86 /* Top sensor */:
         ds.cacheResolution_10bits();
-        ds.cacheAlarmLow(19.0);
-        ds.cacheAlarmHigh(27.0);
+        ds.cacheAlarmLow(19);
+        ds.cacheAlarmHigh(27);
         break;
 
       case 0x6c /* Bottom sensor */:
         ds.cacheResolution_9bits();
-        ds.cacheAlarmLow(30.0);
-        ds.cacheAlarmHigh(35.0);
+        ds.cacheAlarmLow(30);
+        ds.cacheAlarmHigh(35);
         break;
 
       default:
@@ -163,8 +163,8 @@ void setup()
       Serial.println("Resolution: 0b" + String(ds.getResolution(), BIN) + ", " +
                      String(ds.getResolutionBits()) + " bits" + ", " +
                      String(ds.getResolutionTemp(), 4) + " 'C");
-      Serial.println("Alarm Low: " + String(ds.getAlarmLow(), 1) + " 'C");
-      Serial.println("Alarm High: " + String(ds.getAlarmHigh(), 1) + " 'C");
+      Serial.println("Alarm Low: " + String(ds.getAlarmLow()) + " 'C");
+      Serial.println("Alarm High: " + String(ds.getAlarmHigh()) + " 'C");
       Serial.println("---");
     }
   }
