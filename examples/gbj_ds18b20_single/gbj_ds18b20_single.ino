@@ -113,7 +113,7 @@ void setup()
   if (ds.isSuccess(ds.measureTemperature(address)))
   {
     ds.cpySerial(serial);
-    Serial.println("Id: " + String(ds.getId(), HEX));
+    Serial.println("Id: " + String(ds.getId()));
     Serial.println("Serial: " + String(textSerial(serial)));
     Serial.println("Resolution: 0b" + String(ds.getResolution(), BIN) + ", " +
                    String(ds.getResolutionBits()) + " bits" + ", " +

@@ -140,7 +140,7 @@ void setup()
       ds.cpyAddress(address);
       ds.cpySerial(serial);
       ds.cpyScratchpad(scratchpad);
-      Serial.println(String(++deviceNum) + ". Id: " + String(ds.getId(), HEX));
+      Serial.println(String(++deviceNum) + ". Id: " + String(ds.getId()));
       Serial.println("Address: " + String(textAddress(address)));
       Serial.println("Serial: " + String(textSerial(serial)));
       Serial.println("Scratchpad: " + String(textScratchpad(scratchpad)));

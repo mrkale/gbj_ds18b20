@@ -139,7 +139,7 @@ void setup()
       // Display sensor's configuration
       ds.cpyAddress(address);
       ds.cpySerial(serial);
-      Serial.println(String(++deviceNum) + ". Id: " + String(ds.getId(), HEX));
+      Serial.println(String(++deviceNum) + ". Id: " + String(ds.getId()));
       Serial.println("Address: " + String(textAddress(address)));
       Serial.println("Serial: " + String(textSerial(serial)));
       Serial.println("Resolution: 0b" + String(ds.getResolution(), BIN) + ", " +
@@ -163,7 +163,7 @@ void loop()
   while (ds.isAlarm(ds.alarms()))
   {
     // Display alarming sensor
-    Serial.println(String(++deviceNum) + ". Id: " + String(ds.getId(), HEX));
+    Serial.println(String(++deviceNum) + ". Id: " + String(ds.getId()));
     if (ds.isAlarmLow())
     {
       Serial.println("Alarm Low: " + String(ds.getAlarmLow()) + " 'C");

@@ -101,7 +101,7 @@ void errorHandler()
 
 void alarmHandlerLow()
 {
-  Serial.println("Id: " + String(ds.getId(), HEX));
+  Serial.println("Id: " + String(ds.getId()));
   Serial.println("Alarm Low: " + String(ds.getAlarmLow()) + " 'C");
   Serial.println("Temperature: " + String(ds.getTemperature(), 4) + " 'C");
   Serial.println("---");
@@ -109,7 +109,7 @@ void alarmHandlerLow()
 
 void alarmHandlerHigh()
 {
-  Serial.println("Id: " + String(ds.getId(), HEX));
+  Serial.println("Id: " + String(ds.getId()));
   Serial.println("Alarm High: " + String(ds.getAlarmHigh()) + " 'C");
   Serial.println("Temperature: " + String(ds.getTemperature(), 4) + " 'C");
   Serial.println("---");
@@ -157,7 +157,7 @@ void setup()
       // Display sensor's configuration
       ds.cpyAddress(address);
       ds.cpySerial(serial);
-      Serial.println(String(++deviceNum) + ". Id: " + String(ds.getId(), HEX));
+      Serial.println(String(++deviceNum) + ". Id: " + String(ds.getId()));
       Serial.println("Address: " + String(textAddress(address)));
       Serial.println("Serial: " + String(textSerial(serial)));
       Serial.println("Resolution: 0b" + String(ds.getResolution(), BIN) + ", " +
