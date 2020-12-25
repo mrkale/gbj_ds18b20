@@ -108,6 +108,9 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::readScratchpad()
   select(_rom.buffer);
   write(CommandsFnc::READ_SCRATCHPAD);
   read_bytes(_memory.buffer, Params::SCRATCHPAD_LEN);
+  // Check zero config register - no sensor on the bus
+  if (_memory.scratchpad.config == 0)
+    return setLastResult(ResultCodes::ERROR_NO_DEVICE);
   // Check scratchpad CRC
   if (_memory.scratchpad.crc !=
       crc8(_memory.buffer, Params::SCRATCHPAD_LEN - 1))
