@@ -23,7 +23,7 @@ const unsigned char PIN_DS18B20 = 4; // Pin for one-wire bus
 
 gbj_ds18b20 ds = gbj_ds18b20(PIN_DS18B20);
 gbj_ds18b20::Address address;
-gbj_ds18b20::Serial serial;
+gbj_ds18b20::SerialNum sernum;
 char buffer[50];
 uint8_t deviceNum;
 
@@ -41,15 +41,15 @@ String textAddress(gbj_ds18b20::Address address)
   return text;
 }
 
-String textSerial(gbj_ds18b20::Serial serial)
+String textSerial(gbj_ds18b20::SerialNum sernum)
 {
   String text = "";
   char data[3];
-  for (byte i = 0; i < gbj_ds18b20::SERIAL_LEN; i++)
+  for (byte i = 0; i < gbj_ds18b20::SERNUM_LEN; i++)
   {
     if (i)
       text += ":";
-    sprintf(data, "%02X", serial[i]);
+    sprintf(data, "%02X", sernum[i]);
     text += data;
   }
   return text;
@@ -100,7 +100,7 @@ void errorHandler()
 void setup()
 {
   Serial.begin(9600);
-  Serial.println(); // Some serial monitors display garbage at the begining
+  Serial.println(); // Some sernum monitors display garbage at the begining
   Serial.println(SKETCH);
   Serial.println("Libraries:");
   Serial.println(gbj_ds18b20::VERSION);
@@ -138,10 +138,10 @@ void setup()
     {
       // Display sensor's configuration
       ds.cpyAddress(address);
-      ds.cpySerial(serial);
+      ds.cpySerial(sernum);
       Serial.println(String(++deviceNum) + ". Id: " + String(ds.getId()));
       Serial.println("Address: " + String(textAddress(address)));
-      Serial.println("Serial: " + String(textSerial(serial)));
+      Serial.println("Sernum: " + String(textSerial(sernum)));
       Serial.println("Resolution: 0b" + String(ds.getResolution(), BIN) + ", " +
                      String(ds.getResolutionBits()) + " bits" + ", " +
                      String(ds.getResolutionTemp(), 4) + " 'C");

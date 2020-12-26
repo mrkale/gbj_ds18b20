@@ -34,7 +34,7 @@ Library for Dallas Semiconductor DS18B20 one-wire temperature sensors.
 #### Parameters for buffers
 
 - **gbj\_ds18b20::ADDRESS\_LEN**  (`gbj_ds18b20::Params::ADDRESS_LEN`): Number of bytes in the sensor's ROM.
-- **gbj\_ds18b20::SERIAL\_LEN** (`gbj_ds18b20::Params::SERIAL_LEN`): Number of bytes in the sensor's serial number.
+- **gbj\_ds18b20::SERNUM\_LEN** (`gbj_ds18b20::Params::SERNUM_LEN`): Number of bytes in the sensor's serial number.
 - **gbj\_ds18b20::SCRATCHPAD\_LEN** (`gbj_ds18b20::Params::SCRATCHPAD_LEN`): Number of bytes in the sensor's data buffer.
 
 
@@ -61,7 +61,7 @@ It is possible to use functions from the parent library [OneWire](#dependency), 
 - [gbj_ds18b20::Address](#address)
 - [gbj_ds18b20::Handler()](#handler)
 - [gbj_ds18b20::Scratchpad](#scrathpad)
-- [gbj_ds18b20::Serial](#serial)
+- [gbj_ds18b20::SerialNum](#sernum)
 
 
 ##### Main functions
@@ -203,17 +203,17 @@ Custom data type determining the byte array for sensor data buffer.
 [Back to interface](#interface)
 
 
-<a id="serial"></a>
-## Serial
+<a id="sernum"></a>
+## SerialNum
 
 #### Description
 Custom data type determining the byte array for sensor hardware serial number.
 - It is an inner part of the sensor ROM without the first family code byte and the last CRC byte.
-- The size of the address text is determined by the constant [gbj\_ds18b20::SERIAL\_LEN](#params).
-- The sensor's serial might be considered as a <abbr title="Media Access Control">MAC</abbr> address of it.
+- The size of the address text is determined by the constant [gbj\_ds18b20::SERNUM\_LEN](#params).
+- The sensor's serial number might be considered as a <abbr title="Media Access Control">MAC</abbr> address of it.
 
 #### Syntax
-    gbj_ds18b20::Serial serial
+    gbj_ds18b20::SerialNum sernum
 
 #### See also
 [Address](#Address)
@@ -942,27 +942,27 @@ void setup()
 The method copies the current cache of the scratchpad into a provided input byte array.
 
 #### Syntax
-    void cpySerial(gbj_ds18b20::Serial serial)
+    void cpySerial(gbj_ds18b20::SerialNum sernum)
 
 #### Parameters
-- **serial**: Array variable for receiving device serial number as a part of ROM.
+- **sernum**: Array variable for receiving device serial number as a part of ROM.
 
 #### Returns
 Populated input array with device serial number.
 
 #### Example
 ```cpp
-gbj_ds18b20::Serial serial;
+gbj_ds18b20::SerialNum sernum;
 void setup()
 {
   while (ds.isSuccess(ds.sensors()))
   {
-    ds.cpySerial(serial);
+    ds.cpySerial(sernum);
   }
 }
 ```
 
 #### See also
-[Serial](#serial)
+[SerialNum](#sernum)
 
 [Back to interface](#interface)

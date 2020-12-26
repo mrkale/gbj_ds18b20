@@ -64,12 +64,12 @@ public:
   enum Params : uint8_t
   {
     ADDRESS_LEN = 8,
-    SERIAL_LEN = 6,
+    SERNUM_LEN = 6,
     SCRATCHPAD_LEN = 9,
   };
 
   typedef uint8_t Address[Params::ADDRESS_LEN];
-  typedef uint8_t Serial[Params::SERIAL_LEN];
+  typedef uint8_t SerialNum[Params::SERNUM_LEN];
   typedef uint8_t Scratchpad[Params::SCRATCHPAD_LEN];
   typedef void Handler();
 
@@ -255,9 +255,9 @@ public:
   {
     memcpy(address, _rom.buffer, Params::ADDRESS_LEN);
   }
-  inline void cpySerial(Serial serial)
+  inline void cpySerial(SerialNum sernum)
   {
-    memcpy(serial, _rom.address.serial, Params::SERIAL_LEN);
+    memcpy(sernum, _rom.address.sernum, Params::SERNUM_LEN);
   }
   inline void cpyScratchpad(Scratchpad scratchpad)
   {
@@ -314,7 +314,7 @@ private:
     struct Address
     {
       uint8_t family;
-      uint8_t serial[6];
+      uint8_t sernum[6];
       uint8_t crc;
     } address;
   } _rom;
