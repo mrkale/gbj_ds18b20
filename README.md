@@ -350,6 +350,8 @@ The method initiates measurement conversion of the particular sensor with provid
 
 #### Returns
 Result code from [Result and error codes](#results).
+- If there is no device on the one-wire bus, the method returns the error code [gbj\_ds18b20::ERROR\_NO\_DEVICE](#results).
+- If there is a device or more devices on the one-wire bus, but none with input ROM, the method returns the error code [gbj\_ds18b20::ERROR\_CRC\_SCRATCHPAD](#results).
 
 #### See also
 [conversion()](#conversion)
