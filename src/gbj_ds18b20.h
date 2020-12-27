@@ -276,6 +276,7 @@ public:
     temp |= _memory.scratchpad.temp_lsb & _bus.tempMask[getResolution()];
     return (float)temp / 16.0;
   }
+  inline uint8_t getConvMillis() { return _bus.tempMillis[getResolution()]; }
 
 private:
   enum Limits : uint8_t
@@ -387,7 +388,7 @@ private:
       }
     }
     else
-      delay(_bus.tempMillis[getResolution()]); // Conversion time
+      delay(getConvMillis()); // Waiting conversion time period
   }
 
   // Get temperature for comparison to alarm value for selected device

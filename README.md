@@ -120,6 +120,7 @@ It is possible to use functions from the parent library [OneWire](#dependency), 
 - [cpySernum()](#cpySernum)
 - [getAlarmHigh()](#getAlarm)
 - [getAlarmLow()](#getAlarm)
+- [getConvMillis()](#getConvMillis)
 - [getDevices()](#getDevices)
 - [getFamilyCode()](#getFamilyCode)
 - [getId()](#getId)
@@ -563,6 +564,7 @@ Result code from [Result and error codes](#results) about writing scratchpad and
 
 #### Description
 The method returns current resolution as a binary value from the configuration register in the scratchpad according to the datasheet.
+- The resolution determines the temperature conversion time needed at least.
 
 #### Syntax
     uint8_t getResolution()
@@ -577,6 +579,8 @@ Temperature resolution as an internal code from configuration register (R1, R0).
 [getResolutionBits()](#getResolutionBits)
 
 [getResolutionTemp()](#getResolutionTemp)
+
+[getConvMillis()](#getConvMillis)
 
 [Back to interface](#interface)
 
@@ -733,6 +737,29 @@ Microcontroller pin number controlling one-wire bus.
 
 #### See also
 [gbj_ds18b20()](#constructor)
+
+[Back to interface](#interface)
+
+
+<a id="getConvMillis"></a>
+## getConvMillis()
+
+#### Description
+The method returns number of milliseconds needed for temperature conversion depending on current temperature resolution.
+- The return value defines a waiting period with respect to the datasheet that should last before subsequent new temperature measurement.
+- The conversion time determines maximal measurement frequency.
+
+#### Syntax
+    uint8_t getConvMillis()
+
+#### Parameters
+None
+
+#### Returns
+Number of milliseconds that the temperature conversion is going to last at least.
+
+#### See also
+[getResolution()](#getResolution)
 
 [Back to interface](#interface)
 

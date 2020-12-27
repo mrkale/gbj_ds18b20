@@ -16,7 +16,7 @@
 */
 #include "gbj_ds18b20.h"
 
-#define SKETCH "GBJ_DS18B20_SINGLE 1.1.0"
+#define SKETCH "GBJ_DS18B20_SINGLE 1.0.0"
 
 const unsigned int PERIOD_MEASURE = 3000; // Miliseconds between measurements
 const unsigned char PIN_DS18B20 = 4; // Pin for one-wire bus
@@ -119,6 +119,7 @@ void setup()
                    String(ds.getResolutionBits()) + " bits" + ", " +
                    String(ds.getResolutionTemp(), 4) + " 'C");
     ds.cpyScratchpad(scratchpad);
+    Serial.println("Conversion: " + String(ds.getConvMillis()) + " ms");
     Serial.println("Scratchpad: " + String(textScratchpad(scratchpad)));
     Serial.println("Temperature: " + String(ds.getTemperature(), 2) + " 'C");
     Serial.println("---");

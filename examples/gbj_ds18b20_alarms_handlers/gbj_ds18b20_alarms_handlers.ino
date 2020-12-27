@@ -16,7 +16,7 @@
 */
 #include "gbj_ds18b20.h"
 
-#define SKETCH "GBJ_DS18B20_ALARMS_HANDLERS 1.1.0"
+#define SKETCH "GBJ_DS18B20_ALARMS_HANDLERS 1.0.0"
 
 const unsigned int PERIOD_MEASURE = 3000; // Miliseconds between measurements
 const unsigned char PIN_DS18B20 = 4; // Pin for one-wire bus
@@ -163,6 +163,7 @@ void setup()
       Serial.println("Resolution: 0b" + String(ds.getResolution(), BIN) + ", " +
                      String(ds.getResolutionBits()) + " bits" + ", " +
                      String(ds.getResolutionTemp(), 4) + " 'C");
+      Serial.println("Conversion: " + String(ds.getConvMillis()) + " ms");
       Serial.println("Alarm Low: " + String(ds.getAlarmLow()) + " 'C");
       Serial.println("Alarm High: " + String(ds.getAlarmHigh()) + " 'C");
       Serial.println("---");
