@@ -25,7 +25,7 @@ gbj_ds18b20 ds = gbj_ds18b20(PIN_DS18B20);
 gbj_ds18b20::Address address = {
   0x28, 0xBB, 0xA0, 0x6E, 0x06, 0x00, 0x00, 0x86 // Replace with current one
 };
-gbj_ds18b20::SerialNum sernum;
+gbj_ds18b20::Sernum sernum;
 gbj_ds18b20::Scratchpad scratchpad;
 char buffer[50];
 
@@ -43,7 +43,7 @@ String textAddress(gbj_ds18b20::Address address)
   return text;
 }
 
-String textSerial(gbj_ds18b20::SerialNum sernum)
+String textSernum(gbj_ds18b20::Sernum sernum)
 {
   String text = "";
   char data[3];
@@ -112,9 +112,9 @@ void setup()
   Serial.println("Address: " + String(textAddress(address)));
   if (ds.isSuccess(ds.measureTemperature(address)))
   {
-    ds.cpySerial(sernum);
+    ds.cpySernum(sernum);
     Serial.println("Id: " + String(ds.getId()));
-    Serial.println("Sernum: " + String(textSerial(sernum)));
+    Serial.println("Sernum: " + String(textSernum(sernum)));
     Serial.println("Resolution: 0b" + String(ds.getResolution(), BIN) + ", " +
                    String(ds.getResolutionBits()) + " bits" + ", " +
                    String(ds.getResolutionTemp(), 4) + " 'C");

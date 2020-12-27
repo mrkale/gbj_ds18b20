@@ -25,7 +25,7 @@ void alarmHandlerLow();
 void alarmHandlerHigh();
 gbj_ds18b20 ds = gbj_ds18b20(PIN_DS18B20, alarmHandlerLow, alarmHandlerHigh);
 gbj_ds18b20::Address address;
-gbj_ds18b20::SerialNum sernum;
+gbj_ds18b20::Sernum sernum;
 char buffer[50];
 uint8_t deviceNum;
 
@@ -43,7 +43,7 @@ String textAddress(gbj_ds18b20::Address address)
   return text;
 }
 
-String textSerial(gbj_ds18b20::SerialNum sernum)
+String textSernum(gbj_ds18b20::Sernum sernum)
 {
   String text = "";
   char data[3];
@@ -156,10 +156,10 @@ void setup()
     {
       // Display sensor's configuration
       ds.cpyAddress(address);
-      ds.cpySerial(sernum);
+      ds.cpySernum(sernum);
       Serial.println(String(++deviceNum) + ". Id: " + String(ds.getId()));
       Serial.println("Address: " + String(textAddress(address)));
-      Serial.println("Sernum: " + String(textSerial(sernum)));
+      Serial.println("Sernum: " + String(textSernum(sernum)));
       Serial.println("Resolution: 0b" + String(ds.getResolution(), BIN) + ", " +
                      String(ds.getResolutionBits()) + " bits" + ", " +
                      String(ds.getResolutionTemp(), 4) + " 'C");

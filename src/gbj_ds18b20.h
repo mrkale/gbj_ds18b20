@@ -69,7 +69,7 @@ public:
   };
 
   typedef uint8_t Address[Params::ADDRESS_LEN];
-  typedef uint8_t SerialNum[Params::SERNUM_LEN];
+  typedef uint8_t Sernum[Params::SERNUM_LEN];
   typedef uint8_t Scratchpad[Params::SCRATCHPAD_LEN];
   typedef void Handler();
 
@@ -255,7 +255,7 @@ public:
   {
     memcpy(address, _rom.buffer, Params::ADDRESS_LEN);
   }
-  inline void cpySerial(SerialNum sernum)
+  inline void cpySernum(Sernum sernum)
   {
     memcpy(sernum, _rom.address.sernum, Params::SERNUM_LEN);
   }

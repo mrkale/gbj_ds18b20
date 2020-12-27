@@ -61,7 +61,7 @@ It is possible to use functions from the parent library [OneWire](#dependency), 
 - [gbj_ds18b20::Address](#address)
 - [gbj_ds18b20::Handler()](#handler)
 - [gbj_ds18b20::Scratchpad](#scrathpad)
-- [gbj_ds18b20::SerialNum](#sernum)
+- [gbj_ds18b20::Sernum](#Sernum)
 
 
 ##### Main functions
@@ -90,7 +90,7 @@ It is possible to use functions from the parent library [OneWire](#dependency), 
 
 - [cpyAddress()](#cpyAddress)
 - [cpyScratchpad()](#cpyScratchpad)
-- [cpySerial()](#cpySerial)
+- [cpySernum()](#cpySernum)
 - [getLastResult()](#getLastResult)
 - [isError()](#isResult)
 - [isSuccess()](#isResult)
@@ -117,7 +117,7 @@ It is possible to use functions from the parent library [OneWire](#dependency), 
 
 - [cpyAddress()](#cpyAddress)
 - [cpyScratchpad()](#cpyScratchpad)
-- [cpySerial()](#cpySerial)
+- [cpySernum()](#cpySernum)
 - [getAlarmHigh()](#getAlarm)
 - [getAlarmLow()](#getAlarm)
 - [getDevices()](#getDevices)
@@ -203,8 +203,8 @@ Custom data type determining the byte array for sensor data buffer.
 [Back to interface](#interface)
 
 
-<a id="sernum"></a>
-## SerialNum
+<a id="Sernum"></a>
+## Sernum
 
 #### Description
 Custom data type determining the byte array for sensor hardware serial number.
@@ -213,7 +213,7 @@ Custom data type determining the byte array for sensor hardware serial number.
 - The sensor's serial number might be considered as a <abbr title="Media Access Control">MAC</abbr> address of it.
 
 #### Syntax
-    gbj_ds18b20::SerialNum sernum
+    gbj_ds18b20::Sernum sernum
 
 #### See also
 [Address](#Address)
@@ -935,14 +935,14 @@ void setup()
 [Back to interface](#interface)
 
 
-<a id="cpySerial"></a>
-## cpySerial()
+<a id="cpySernum"></a>
+## cpySernum()
 
 #### Description
 The method copies the current cache of the scratchpad into a provided input byte array.
 
 #### Syntax
-    void cpySerial(gbj_ds18b20::SerialNum sernum)
+    void cpySernum(gbj_ds18b20::Sernum sernum)
 
 #### Parameters
 - **sernum**: Array variable for receiving device serial number as a part of ROM.
@@ -952,17 +952,17 @@ Populated input array with device serial number.
 
 #### Example
 ```cpp
-gbj_ds18b20::SerialNum sernum;
+gbj_ds18b20::Sernum sernum;
 void setup()
 {
   while (ds.isSuccess(ds.sensors()))
   {
-    ds.cpySerial(sernum);
+    ds.cpySernum(sernum);
   }
 }
 ```
 
 #### See also
-[SerialNum](#sernum)
+[Sernum](#Sernum)
 
 [Back to interface](#interface)

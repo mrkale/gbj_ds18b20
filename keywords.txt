@@ -26,7 +26,7 @@ cacheResolutionReset	KEYWORD2
 conversion	KEYWORD2
 cpyAddress	KEYWORD2
 cpyScratchpad	KEYWORD2
-cpySerial	KEYWORD2
+cpySernum	KEYWORD2
 getAlarmHigh	KEYWORD2
 getAlarmLow	KEYWORD2
 getDevices	KEYWORD2
