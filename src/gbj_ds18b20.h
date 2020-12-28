@@ -196,13 +196,14 @@ public:
   }
   inline void cacheAlarmsReset()
   {
-    cacheAlarmLow(70);
-    cacheAlarmHigh(75);
+    cacheAlarmLow(getAlarmLowIni());
+    cacheAlarmHigh(getAlarmHighIni());
   }
   inline ResultCodes setCache() { return writeScratchpad(); }
 
   // Public getters
   inline ResultCodes getLastResult() { return _status.lastResult; }
+  inline ResultCodes getCache() { return readScratchpad(); }
   inline bool isSuccess() { return _status.lastResult == ResultCodes::SUCCESS; }
   inline bool isSuccess(ResultCodes result)
   {
@@ -241,6 +242,8 @@ public:
   }
   inline int8_t getAlarmLow() { return _memory.scratchpad.alarm_lsb; }
   inline int8_t getAlarmHigh() { return _memory.scratchpad.alarm_msb; }
+  inline int8_t getAlarmLowIni() { return 70; }
+  inline int8_t getAlarmHighIni() { return 75; }
   inline uint8_t getPin() { return _bus.pinBus; }
   inline uint8_t getDevices() { return _bus.devices; }
   inline uint8_t getSensors() { return _bus.sensors; }

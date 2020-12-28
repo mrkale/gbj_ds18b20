@@ -28,7 +28,10 @@ cpyAddress	KEYWORD2
 cpyScratchpad	KEYWORD2
 cpySernum	KEYWORD2
 getAlarmHigh	KEYWORD2
+getAlarmHighIni	KEYWORD2
 getAlarmLow	KEYWORD2
+getAlarmLowIni	KEYWORD2
+getCache	KEYWORD2
 getConvMillis	KEYWORD2
 getDevices	KEYWORD2
 getFamilyCode	KEYWORD2

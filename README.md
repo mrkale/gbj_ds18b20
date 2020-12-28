@@ -4,7 +4,7 @@ Library for Dallas Semiconductor DS18B20 one-wire temperature sensors.
 - Library utilizes a detailed error handling.
 - Library does not have conversion to imperial temperature units (degrees of Fahrenheit). The conversion should be provided in a sketch code or in a separate library in order to avoid code duplicities in sketches using multiple libraries with the same conversion functionalities.
 - Library provides a _device identifier_ taken from last byte (<abbr title="Cyclic Redundancy Code">CRC</abbr>) of a device's hardware <abbr title="Read Only Memory">ROM</abbr>.
-- At temperature alarm processing an alarm temperature is converted from integer to float right before comparison.
+- Values for low and alarm conditions are stored in sensor's <abbr title="Electrically Erasable Programmable Read-Only Memory">EEPROM</abbr>, so that they can be used as a two-byte persistent memory.
 - Library is primarily aimed for working with all sensors on the one-wire bus in a loop, so that they need not to be identified by an address in advance. Thus, all getters and setters are valid for currently selected sensor in a loop.
 
 <a id="dependency"></a>
@@ -119,7 +119,10 @@ It is possible to use functions from the parent library [OneWire](#dependency), 
 - [cpyScratchpad()](#cpyScratchpad)
 - [cpySernum()](#cpySernum)
 - [getAlarmHigh()](#getAlarm)
+- [getAlarmHighIni()](#getAlarmIni)
 - [getAlarmLow()](#getAlarm)
+- [getAlarmLowIni()](#getAlarmIni)
+- [getCache()](#getCache)
 - [getConvMillis()](#getConvMillis)
 - [getDevices()](#getDevices)
 - [getFamilyCode()](#getFamilyCode)
@@ -401,7 +404,7 @@ void setup()
 ## isAlarmLow(), isAlarmHigh(), isAlarm()
 
 #### Description
-Appropriate method checks if selected device meets condition for low or high alarm or some of them detected right before.
+Corresponding method checks if selected device meets condition for low or high alarm or some of them detected right before.
 - Before calling corresponding method the method [alarms()](#alarms) should be called in order to detect alarm conditions. Usually it is called as an input parameter.
 - A method without input parameter evaluates result of recent operation, which should be the method [alarms()](#alarms).
 
@@ -453,7 +456,7 @@ while (ds.isAlarmLow(ds.alarms()))
 ## getAlarmLow(), getAlarmHigh()
 
 #### Description
-Appropriate method returns currently set corresponding alarm temperature of selected device in centigrades.
+Corresponding method returns currently set corresponding alarm temperature of selected device in centigrades.
 - If alarm signalling capability is not used, alarm condition values can be utilized as a general-purpose memory or 2-byte EEPROM respectively and these methods read stored signed bytes from EEPROM and the scratchpad.
 
 #### Syntax
@@ -472,11 +475,40 @@ Temperature in centigrades currently set as a low or high alarm condition respec
 [Back to interface](#interface)
 
 
+<a id="getAlarmIni"></a>
+## getAlarmLowIni(), getAlarmHighIni()
+
+#### Description
+Corresponding method returns factory initial setting of an alarm conditions (in EEPROM) for the DS18B20 sensors.
+- Method _getAlarmLowIni()_ returns low factory alarm condition 70 centigrade.
+- Method _getAlarmHighIni()_ returns high factory alarm condition 75 centigrade.
+- Those factory alarm conditions can be set by the method [cacheAlarmReset()](#cacheAlarm) and writing to the EEPROM with the method [setCache()](#setCache).
+
+#### Syntax
+    int8_t getAlarmLowIni()
+    int8_t getAlarmHighIni()
+
+#### Parameters
+None
+
+#### Returns
+Factory temperature in centigrades as a low or high initial alarm condition respectively.
+
+#### See also
+[getAlarmLow(), getAlarmHigh()](#getAlarm)
+
+[cacheAlarmsReset()](#cacheAlarm)
+
+[setCache()](#setCache)
+
+[Back to interface](#interface)
+
+
 <a id="cacheAlarm"></a>
 ## cacheAlarmLow(), cacheAlarmHigh(), cacheAlarmsReset()
 
 #### Description
-Appropriate method writes alarm condition to internal buffer representing scratchpad.
+Corresponding method writes alarm condition to internal buffer representing scratchpad.
 - Alarm temperatures are in integer centigrades.
 - The method _cacheAlarmsReset()_ sets factory default alarm conditions **70 and 75** centigrades.
 - If alarm signalling capability is not used, alarm condition values can be utilized as a general-purpose memory or 2-byte EEPROM respectively and these methods write signed bytes to the scratchpad and EEPROM.
@@ -508,7 +540,7 @@ None
 ## cacheResolution_9bits(), cacheResolution_10bits(), cacheResolution_11bits(), cacheResolution_12bits(), cacheResolutionReset()
 
 #### Description
-Appropriate method writes temperature measurement resolution in bits from its name to internal buffer representing configuration register of the scratchpad.
+Corresponding method writes temperature measurement resolution in bits from its name to internal buffer representing configuration register of the scratchpad.
 - The method _cacheResolutionReset()_ sets factory default resolution 12 bits.
 
 #### Syntax
@@ -552,9 +584,33 @@ None
 Result code from [Result and error codes](#results) about writing scratchpad and EEPROM.
 
 #### See also
+[getCache()](#getCache)
+
 [cacheAlarmLow(), cacheAlarmHigh(), cacheAlarmsReset()](#cacheAlarm)
 
 [cacheResolution_9bits(), cacheResolution_10bits(), cacheResolution_11bits(), cacheResolution_12bits(), cacheResolutionReset()](#cacheResolution)
+
+[Back to interface](#interface)
+
+
+<a id="getCache"></a>
+## getCache()
+
+#### Description
+The method reads the scratchpad from EEPROM and puts the concent to the internal cache.
+- The method is suitable for unit testing. Otherwise it is used internally by loop methods.
+
+#### Syntax
+    gbj_ds18b20::ResultCodes getCache()
+
+#### Parameters
+None
+
+#### Returns
+Result code from [Result and error codes](#results) about reading from EEPROM.
+
+#### See also
+[setCache()](#setCache)
 
 [Back to interface](#interface)
 
@@ -659,7 +715,7 @@ Recently measured temperature.
 ## getTemperatureMin(), getTemperatureMax(), getTemperatureIni()
 
 #### Description
-Particular method returns corresponding typical temperature limit or value for the DS18B20 sensors.
+Corresponding method returns corresponding typical temperature limit or value for the DS18B20 sensors.
 - Methods _getTemperatureMin()_, _getTemperatureMax()_ return temperature measurement limits -55 ~ +125 centigrade.
 - Method _getTemperatureIni()_ returns power-on reset temperature 85 centigrade.
 
