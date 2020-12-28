@@ -17,9 +17,9 @@
 
 #define SKETCH "GBJ_DS18B20_SENSORS 1.0.0"
 
-const unsigned char PIN_DS18B20 = 4; // Pin for one-wire bus
+const unsigned char PIN_ONEWIRE = 4; // Pin for one-wire bus
 
-gbj_ds18b20 ds = gbj_ds18b20(PIN_DS18B20);
+gbj_ds18b20 ds = gbj_ds18b20(PIN_ONEWIRE);
 gbj_ds18b20::Address address;
 gbj_ds18b20::Sernum sernum;
 gbj_ds18b20::Scratchpad scratchpad;

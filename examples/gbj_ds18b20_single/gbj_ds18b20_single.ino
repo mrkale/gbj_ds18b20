@@ -19,9 +19,9 @@
 #define SKETCH "GBJ_DS18B20_SINGLE 1.0.0"
 
 const unsigned int PERIOD_MEASURE = 3000; // Miliseconds between measurements
-const unsigned char PIN_DS18B20 = 4; // Pin for one-wire bus
+const unsigned char PIN_ONEWIRE = 4; // Pin for one-wire bus
 
-gbj_ds18b20 ds = gbj_ds18b20(PIN_DS18B20);
+gbj_ds18b20 ds = gbj_ds18b20(PIN_ONEWIRE);
 gbj_ds18b20::Address address = {
   0x28, 0xBB, 0xA0, 0x6E, 0x06, 0x00, 0x00, 0x86 // Replace with current one
 };
