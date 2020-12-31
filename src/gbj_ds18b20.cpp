@@ -22,7 +22,7 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::devices()
     if (_rom.address.crc != crc8(_rom.buffer, Params::ADDRESS_LEN - 1))
       return setLastResult(ResultCodes::ERROR_CRC_ADDRESS);
     _bus.devices++;
-    if (getFamilyCode() == getFamilyCodeIni())
+    if (getFamilyCode() == Params::FAMILY_CODE)
     {
       _bus.sensors++;
       if (isSuccess(readScratchpad()))
@@ -40,7 +40,7 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::sensors()
   static uint8_t iterations;
   while (search(_rom.buffer))
   {
-    if (getFamilyCode() != getFamilyCodeIni())
+    if (getFamilyCode() != Params::FAMILY_CODE)
       continue;
     if (isSuccess(readScratchpad()))
       iterations++;
@@ -65,7 +65,7 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::alarms()
   // Conditional search
   while (search(_rom.buffer, false))
   {
-    if (getFamilyCode() != getFamilyCodeIni())
+    if (getFamilyCode() != Params::FAMILY_CODE)
       continue;
     if (isSuccess(readScratchpad()))
     {

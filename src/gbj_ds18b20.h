@@ -63,6 +63,7 @@ public:
 
   enum Params : uint8_t
   {
+    FAMILY_CODE = 0x28,
     ADDRESS_LEN = 8,
     SERNUM_LEN = 6,
     SCRATCHPAD_LEN = 9,
@@ -248,7 +249,6 @@ public:
   inline uint8_t getDevices() { return _bus.devices; }
   inline uint8_t getSensors() { return _bus.sensors; }
   inline uint8_t getFamilyCode() { return _rom.address.family; }
-  inline uint8_t getFamilyCodeIni() { return Limits::FAMILY_CODE; }
   inline uint8_t getId() { return _rom.address.crc; }
   inline float getTemperatureMin() { return -55.0; }
   inline float getTemperatureMax() { return 125.0; }
@@ -283,11 +283,6 @@ public:
   inline uint8_t getConvMillis() { return _bus.tempMillis[getResolution()]; }
 
 private:
-  enum Limits : uint8_t
-  {
-    FAMILY_CODE = 0x28,
-  };
-
   enum ConfigRegBit : uint8_t
   {
     R0 = 5,

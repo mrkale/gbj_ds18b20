@@ -41,6 +41,7 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 <a id="params"></a>
 #### Parameters for buffers
 
+- **FAMILY\_CODE**  (`Params::FAMILY_CODE`): Implicit family code of the temperature sensor 0x28 (40).
 - **ADDRESS\_LEN**  (`Params::ADDRESS_LEN`): Number of bytes in the sensor's ROM.
 - **SERNUM\_LEN** (`Params::SERNUM_LEN`): Number of bytes in the sensor's serial number.
 - **SCRATCHPAD\_LEN** (`Params::SCRATCHPAD_LEN`): Number of bytes in the sensor's data buffer.
@@ -105,14 +106,6 @@ It is possible to use functions from the parent library [OneWire](#dependency), 
 - [setLastResult()](#setLastResult)
 
 
-##### Features (static parameters)
-
-- [getFamilyCodeIni()](#getFamilyCodeIni)
-- [getTemperatureIni()](#getTempLimit)
-- [getTemperatureMax()](#getTempLimit)
-- [getTemperatureMin()](#getTempLimit)
-
-
 <a id="setters"></a>
 #### Setters
 
@@ -142,7 +135,6 @@ It is possible to use functions from the parent library [OneWire](#dependency), 
 - [getConvMillis()](#getConvMillis)
 - [getDevices()](#getDevices)
 - [getFamilyCode()](#getFamilyCode)
-- [getFamilyCodeIni()](#getFamilyCodeIni)
 - [getId()](#getId)
 - [getLastResult()](#getLastResult)
 - [getPin()](#getPin)
@@ -753,28 +745,6 @@ Typical temperature features -55, +125, +85 centigrade.
 [Back to interface](#interface)
 
 
-<a id="getFamilyCodeIni"></a>
-## getFamilyCodeIni()
-
-#### Description
-The method returns specific product identification code of the DS18B20 temperature sensor.
-- The method is useful when there is no ROM address available or none of temperature sensors has been selected yet.
-
-#### Syntax
-    uint8_t getFamilyCodeIni()
-
-#### Parameters
-None
-
-#### Returns
-Implicit family code HEX 28 (DEC 40).
-
-#### See also
-[getFamilyCode()](#getFamilyCode)
-
-[Back to interface](#interface)
-
-
 <a id="getFamilyCode"></a>
 ## getFamilyCode()
 
@@ -789,9 +759,6 @@ None
 
 #### Returns
 Device specific internal code for product identification of the sensor. For DS18B20 it is always HEX 28, DEC 40.
-
-#### See also
-[getFamilyCodeIni()](#getFamilyCodeIni)
 
 [Back to interface](#interface)
 
