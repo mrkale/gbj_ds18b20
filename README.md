@@ -35,28 +35,28 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 <a id="constants"></a>
 ## Constants
 
-- **gbj\_ds18b20::VERSION**: Name and semantic version of the library.
+- **VERSION**: Name and semantic version of the library.
 
 
 <a id="params"></a>
 #### Parameters for buffers
 
-- **gbj\_ds18b20::ADDRESS\_LEN**  (`gbj_ds18b20::Params::ADDRESS_LEN`): Number of bytes in the sensor's ROM.
-- **gbj\_ds18b20::SERNUM\_LEN** (`gbj_ds18b20::Params::SERNUM_LEN`): Number of bytes in the sensor's serial number.
-- **gbj\_ds18b20::SCRATCHPAD\_LEN** (`gbj_ds18b20::Params::SCRATCHPAD_LEN`): Number of bytes in the sensor's data buffer.
+- **ADDRESS\_LEN**  (`Params::ADDRESS_LEN`): Number of bytes in the sensor's ROM.
+- **SERNUM\_LEN** (`Params::SERNUM_LEN`): Number of bytes in the sensor's serial number.
+- **SCRATCHPAD\_LEN** (`Params::SCRATCHPAD_LEN`): Number of bytes in the sensor's data buffer.
 
 
 <a id="results"></a>
 #### Result and error codes
 
-- **gbj\_ds18b20::SUCCESS** (`gbj_ds18b20::ResultCodes::SUCCESS`): Successful processing of the recent function.
-- **gbj\_ds18b20::END\_OF\_LIST** (`gbj_ds18b20::ResultCodes::END_OF_LIST`): Last sensor on the bus has been processed.
-- **gbj\_ds18b20::ERROR\_NO\_DEVICE** (`gbj_ds18b20::ResultCodes::ERROR_NO_DEVICE`): No sensor on the one-wire bus detected.
-- **gbj\_ds18b20::ERROR\_CRC\_ADDRESS** (`gbj_ds18b20::ResultCodes::ERROR_CRC_ADDRESS`): Bad hardware address of a sensor.
-- **gbj\_ds18b20::ERROR\_CRC\_SCRATCHPAD** (`gbj_ds18b20::ResultCodes::ERROR_CRC_SCRATCHPAD`): Reading of a sensor's data buffer has failed.
-- **gbj\_ds18b20::ERROR\_NO\_ALARM** (`gbj_ds18b20::ResultCodes::ERROR_NO_ALARM`): No temperature alarm detected.
-- **gbj\_ds18b20::ERROR\_ALARM\_LOW** (`gbj_ds18b20::ResultCodes::ERROR_ALARM_LOW`): Low temperature alarm has been detected.
-- **gbj\_ds18b20::ERROR\_ALARM\_HIGH** (`gbj_ds18b20::ResultCodes::ERROR_ALARM_HIGH`): High temperature alarm has been detected.
+- **SUCCESS** (`ResultCodes::SUCCESS`): Successful processing of the recent function.
+- **END\_OF\_LIST** (`ResultCodes::END_OF_LIST`): Last sensor on the bus has been processed.
+- **ERROR\_NO\_DEVICE** (`ResultCodes::ERROR_NO_DEVICE`): No sensor on the one-wire bus detected.
+- **ERROR\_CRC\_ADDRESS** (`ResultCodes::ERROR_CRC_ADDRESS`): Bad hardware address of a sensor.
+- **ERROR\_CRC\_SCRATCHPAD** (`ResultCodes::ERROR_CRC_SCRATCHPAD`): Reading of a sensor's data buffer has failed.
+- **ERROR\_NO\_ALARM** (`ResultCodes::ERROR_NO_ALARM`): No temperature alarm detected.
+- **ERROR\_ALARM\_LOW** (`ResultCodes::ERROR_ALARM_LOW`): Low temperature alarm has been detected.
+- **ERROR\_ALARM\_HIGH** (`ResultCodes::ERROR_ALARM_HIGH`): High temperature alarm has been detected.
 
 
 <a id="interface"></a>
@@ -66,10 +66,10 @@ It is possible to use functions from the parent library [OneWire](#dependency), 
 
 ##### Custom data types
 
-- [gbj_ds18b20::Address](#address)
-- [gbj_ds18b20::Handler()](#handler)
-- [gbj_ds18b20::Scratchpad](#scrathpad)
-- [gbj_ds18b20::Sernum](#Sernum)
+- [Address](#address)
+- [Scratchpad](#scrathpad)
+- [Sernum](#Sernum)
+- [Handler()](#handler)
 
 
 ##### Main functions
@@ -105,6 +105,14 @@ It is possible to use functions from the parent library [OneWire](#dependency), 
 - [setLastResult()](#setLastResult)
 
 
+##### Features (static parameters)
+
+- [getFamilyCodeIni()](#getFamilyCodeIni)
+- [getTemperatureIni()](#getTempLimit)
+- [getTemperatureMax()](#getTempLimit)
+- [getTemperatureMin()](#getTempLimit)
+
+
 <a id="setters"></a>
 #### Setters
 
@@ -134,6 +142,7 @@ It is possible to use functions from the parent library [OneWire](#dependency), 
 - [getConvMillis()](#getConvMillis)
 - [getDevices()](#getDevices)
 - [getFamilyCode()](#getFamilyCode)
+- [getFamilyCodeIni()](#getFamilyCodeIni)
 - [getId()](#getId)
 - [getLastResult()](#getLastResult)
 - [getPin()](#getPin)
@@ -159,7 +168,7 @@ It is possible to use functions from the parent library [OneWire](#dependency), 
 
 #### Description
 Custom data type determining the byte array for sensor hardware address (ROM).
-- The size of the address text is determined by the constant [gbj\_ds18b20::ADDRESS\_LEN](#params).
+- The size of the address text is determined by the constant [ADDRESS\_LEN](#params).
 
 #### Syntax
     gbj_ds18b20::Address address
@@ -207,7 +216,7 @@ gbj_ds18b20 ds = gbj_ds18b20(4, alarmHandlerLow);
 
 #### Description
 Custom data type determining the byte array for sensor data buffer.
-- The size of the address text is determined by the constant [gbj\_ds18b20::SCRATCHPAD\_LEN](#params).
+- The size of the address text is determined by the constant [SCRATCHPAD\_LEN](#params).
 
 #### Syntax
     gbj_ds18b20::Scratchpad scratchpad
@@ -221,7 +230,7 @@ Custom data type determining the byte array for sensor data buffer.
 #### Description
 Custom data type determining the byte array for sensor hardware serial number.
 - It is an inner part of the sensor ROM without the first family code byte and the last CRC byte.
-- The size of the address text is determined by the constant [gbj\_ds18b20::SERNUM\_LEN](#params).
+- The size of the address text is determined by the constant [SERNUM\_LEN](#params).
 - The sensor's serial number might be considered as a <abbr title="Media Access Control">MAC</abbr> address of it.
 
 #### Syntax
@@ -254,12 +263,12 @@ Constructor creates the class instance object and alternatively sets alarm handl
 
 <a id="prm_alarmHandlerLow"></a>
 - **alarmHandlerLow**: Pointer to a procedure that is called than the measured temperature reaches the low alarms temperature or sinks bellow it.
-  - *Valid values*: within address space of the microcontroller by custom type [gbj\_ds18b20::Handler()](#handler).
+  - *Valid values*: within address space of the microcontroller by custom type [Handler()](#handler).
   - *Default value*: 0 (not used any alarm handler)
 
 <a id="prm_alarmHandlerHigh"></a>
 - **alarmHandlerHigh**: Pointer to a procedure that is called than measured temperature reaches the high alarms temperature or is above it.
-  - *Valid values*: within address space of the microcontroller by custom type [gbj\_ds18b20::Handler()](#handler).
+  - *Valid values*: within address space of the microcontroller by custom type [Handler()](#handler).
   - *Default value*: 0 (not used any alarm handler)
 
 #### Returns
@@ -357,13 +366,13 @@ The method initiates measurement conversion of the particular sensor with provid
 #### Parameters
 <a id="prm_address"></a>
 - **address**: Array variable with a device ROM identifying a sensor.
-  - *Valid values*: array of non-negative integers 0 to 255 with length defined by the constant [gbj\_ds18b20::ADDRESS\_LEN](#params)
+  - *Valid values*: array of non-negative integers 0 to 255 with length defined by the constant [ADDRESS\_LEN](#params)
   - *Default value*: none
 
 #### Returns
 Result code from [Result and error codes](#results).
-- If there is no device on the one-wire bus, the method returns the error code [gbj\_ds18b20::ERROR\_NO\_DEVICE](#results).
-- If there is a device or more devices on the one-wire bus, but none with input ROM, the method returns the error code [gbj\_ds18b20::ERROR\_CRC\_SCRATCHPAD](#results).
+- If there is no device on the one-wire bus, the method returns the error code [ERROR\_NO\_DEVICE](#results).
+- If there is a device or more devices on the one-wire bus, but none with input ROM, the method returns the error code [ERROR\_CRC\_SCRATCHPAD](#results).
 
 #### See also
 [conversion()](#conversion)
@@ -429,8 +438,8 @@ Corresponding method checks if selected device meets condition for low or high a
 #### Parameters
 <a id="prm_result"></a>
 - **result**: Result code of the recent operation detecting alarm conditions.
-  - *Valid values*: Some of [gbj\_ds18b20::ERROR\_ALARM\_LOW, gbj\_ds18b20::ERROR\_ALARM\_HIGH](#results).
-  - *Default value*: [gbj\_ds18b20::SUCCESS](#results)
+  - *Valid values*: Some of [ERROR\_ALARM\_LOW, ERROR\_ALARM\_HIGH](#results).
+  - *Default value*: [SUCCESS](#results)
 
 #### Returns
 Flag about signalling alarm condition.
@@ -723,7 +732,7 @@ Recently measured temperature.
 ## getTemperatureMin(), getTemperatureMax(), getTemperatureIni()
 
 #### Description
-Corresponding method returns corresponding typical temperature limit or value for the DS18B20 sensors.
+Corresponding method returns corresponding typical temperature features (static parameters) for the DS18B20 sensors temperature measurement range.
 - Methods _getTemperatureMin()_, _getTemperatureMax()_ return temperature measurement limits -55 ~ +125 centigrade.
 - Method _getTemperatureIni()_ returns power-on reset temperature 85 centigrade.
 
@@ -736,10 +745,32 @@ Corresponding method returns corresponding typical temperature limit or value fo
 None
 
 #### Returns
-Typical temperature measurement limit and value.
+Typical temperature features -55, +125, +85 centigrade.
 
 #### See also
-[getResolutionTemp()](#getResolutionTemp)
+[getTemperature()](#getTemperature)
+
+[Back to interface](#interface)
+
+
+<a id="getFamilyCodeIni"></a>
+## getFamilyCodeIni()
+
+#### Description
+The method returns specific product identification code of the DS18B20 temperature sensor.
+- The method is useful when there is no ROM address available or none of temperature sensors has been selected yet.
+
+#### Syntax
+    uint8_t getFamilyCodeIni()
+
+#### Parameters
+None
+
+#### Returns
+Implicit family code HEX 28 (DEC 40).
+
+#### See also
+[getFamilyCode()](#getFamilyCode)
 
 [Back to interface](#interface)
 
@@ -748,7 +779,7 @@ Typical temperature measurement limit and value.
 ## getFamilyCode()
 
 #### Description
-The method returns product identifier as the very first byte of the sensors ROM.
+The method returns product identifier as the very first byte of the ROM address of a currently selected sensor.
 
 #### Syntax
     uint8_t getFamilyCode()
@@ -758,6 +789,9 @@ None
 
 #### Returns
 Device specific internal code for product identification of the sensor. For DS18B20 it is always HEX 28, DEC 40.
+
+#### See also
+[getFamilyCodeIni()](#getFamilyCodeIni)
 
 [Back to interface](#interface)
 
@@ -894,7 +928,7 @@ Flag about external or parasitic power mode.
 
 #### Description
 The method sets or initializes the internal status of recent processing on the one-wire bus to input value.
-- Without input parameter the method initializes internal status to success result code with class constant [gbj\_ds18b20::SUCCESS](#results).
+- Without input parameter the method initializes internal status to success result code with class constant [SUCCESS](#results).
 - The method without input parameter is usually called right before any operation on the bus in order to reset the internal status or in methods without bus communication.
 
 #### Syntax
@@ -905,7 +939,7 @@ The method sets or initializes the internal status of recent processing on the o
 <a id="prm_result"></a>
 - **result**: Desired result code that should be set as a recent result code.
   - *Valid values*: Some of [Result or error codes](#results).
-  - *Default value*: [gbj\_ds18b20::SUCCESS](#results)
+  - *Default value*: [SUCCESS](#results)
 
 #### Returns
 New (actual) result code of recent operation from [Result and error codes](#results).

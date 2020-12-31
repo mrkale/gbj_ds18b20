@@ -248,6 +248,7 @@ public:
   inline uint8_t getDevices() { return _bus.devices; }
   inline uint8_t getSensors() { return _bus.sensors; }
   inline uint8_t getFamilyCode() { return _rom.address.family; }
+  inline uint8_t getFamilyCodeIni() { return Limits::FAMILY_CODE; }
   inline uint8_t getId() { return _rom.address.crc; }
   inline float getTemperatureMin() { return -55.0; }
   inline float getTemperatureMax() { return 125.0; }
@@ -284,7 +285,7 @@ public:
 private:
   enum Limits : uint8_t
   {
-    DS18B20 = 0x28,
+    FAMILY_CODE = 0x28,
   };
 
   enum ConfigRegBit : uint8_t
