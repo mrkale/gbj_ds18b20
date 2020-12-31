@@ -98,7 +98,7 @@ public:
       - Default value: 0
       - Limited range: system address range
 
-    RETURN:  object
+    RETURN: object
   */
   gbj_ds18b20(uint8_t pinBus,
               Handler *alarmHandlerLow = 0,
@@ -164,7 +164,7 @@ public:
     with provided address on the one-wire bus and reads its scratchpad right
     after it and returns temperature.
 
-    PARAMETERS: none
+    PARAMETERS:
     address - Temperature sensor address.
       - Data type: array of non-negative integers
       - Default value: none

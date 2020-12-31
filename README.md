@@ -6,6 +6,7 @@ Library for Dallas Semiconductor DS18B20 one-wire temperature sensors.
 - Library provides a _device identifier_ taken from last byte (<abbr title="Cyclic Redundancy Code">CRC</abbr>) of a device's hardware <abbr title="Read Only Memory">ROM</abbr>.
 - Values for low and alarm conditions are stored in sensor's <abbr title="Electrically Erasable Programmable Read-Only Memory">EEPROM</abbr>, so that they can be used as a two-byte persistent memory.
 - Library is primarily aimed for working with all sensors on the one-wire bus in a loop, so that they need not to be identified by an address in advance. Thus, all getters and setters are valid for currently selected sensor in a loop.
+- The loop aproach is useful even if there is just one temperature sensor on the one-wire bus. It enables to replace a sensor without any change in a program code even during operation in a running application if properly programmed.
 
 <a id="dependency"></a>
 ## Dependency
