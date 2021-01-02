@@ -27,6 +27,7 @@ conversion	KEYWORD2
 cpyAddress	KEYWORD2
 cpyScratchpad	KEYWORD2
 cpySernum	KEYWORD2
+getAddressRef	KEYWORD2
 getAlarmHigh	KEYWORD2
 getAlarmHighIni	KEYWORD2
 getAlarmLow	KEYWORD2
@@ -41,6 +42,7 @@ getPin	KEYWORD2
 getResolution	KEYWORD2
 getResolutionBits	KEYWORD2
 getResolutionTemp	KEYWORD2
+getScratchpadRef	KEYWORD2
 getSensors	KEYWORD2
 getTemperature	KEYWORD2
 getTemperatureIni	KEYWORD2

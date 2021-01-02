@@ -129,6 +129,7 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 - [cpyAddress()](#cpyAddress)
 - [cpyScratchpad()](#cpyScratchpad)
 - [cpySernum()](#cpySernum)
+- [getAddressRef()](#getPointer)
 - [getAlarmHigh()](#getAlarm)
 - [getAlarmHighIni()](#getAlarmIni)
 - [getAlarmLow()](#getAlarm)
@@ -143,6 +144,7 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 - [getResolution()](#getResolution)
 - [getResolutionBits()](#getResolutionBits)
 - [getResolutionTemp()](#getResolutionTemp)
+- [getScratchpadRef()](#getPointer)
 - [getSensors()](#getSensors)
 - [getTemperature()](#getTemperature)
 - [getTemperatureIni()](#getTempLimit)
@@ -963,6 +965,33 @@ Flag about successful or failed processing of the recent operation.
 [Back to interface](#interface)
 
 
+<a id="getPointer"></a>
+## getAddressRef(), getScratchpadRef()
+
+#### Description
+Corresponding method returns pointer to the internal ROM address or internal
+scratchpad memory of a selected sensor.
+- Methods are useful when just reading is used and there is no need to copy
+  those memory arrays to separate array variables in a sketch.
+
+#### Syntax
+    uint8_t *getAddressRef()
+    uint8_t *getScratchpadRef()
+
+#### Parameters
+None
+
+#### Returns
+Pointer to a byte array memory inside the library instance object.
+
+#### See also
+[cpyAddress()](#cpyAddress)
+
+[cpyScratchpad()](#cpyScratchpad)
+
+[Back to interface](#interface)
+
+
 <a id="cpyAddress"></a>
 ## cpyAddress()
 
@@ -992,6 +1021,8 @@ void setup()
 
 #### See also
 [Address](#address)
+
+[getAddressRef()](#getPointer)
 
 [Back to interface](#interface)
 
@@ -1025,6 +1056,8 @@ void setup()
 
 #### See also
 [Scratchpad](#scratchpad)
+
+[getScratchpadRef()](#getPointer)
 
 [Back to interface](#interface)
 

@@ -255,6 +255,8 @@ public:
   inline float getTemperatureIni() { return 85.0; }
   inline bool isPowerExternal() { return _bus.powerExternal; }
   inline bool isPowerParasite() { return !isPowerExternal(); }
+  inline uint8_t *getAddressRef() { return _rom.buffer; }
+  inline uint8_t *getScratchpadRef() { return _memory.buffer; }
   inline void cpyAddress(Address address)
   {
     memcpy(address, _rom.buffer, Params::ADDRESS_LEN);
