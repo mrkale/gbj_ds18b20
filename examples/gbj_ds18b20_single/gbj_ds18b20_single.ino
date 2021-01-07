@@ -95,6 +95,10 @@ void errorHandler()
       Serial.println("ERROR_CRC_SCRATCHPAD");
       break;
 
+    case gbj_ds18b20::ERROR_CONVERSION:
+      Serial.println("ERROR_CONVERSION");
+      break;
+
     default:
       Serial.println("Unknown error");
       break;

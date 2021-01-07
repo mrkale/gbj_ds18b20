@@ -31,11 +31,7 @@
 #define GBJ_DS18B20_H
 
 #if defined(__AVR__)
-  #if ARDUINO >= 100
-    #include <Arduino.h>
-  #else
-    #include <WProgram.h>
-  #endif
+  #include <Arduino.h>
   #include <inttypes.h>
 #elif defined(ESP8266) || defined(ESP32)
   #include <Arduino.h>
@@ -59,6 +55,7 @@ public:
     ERROR_NO_ALARM = 252,
     ERROR_ALARM_LOW = 251,
     ERROR_ALARM_HIGH = 250,
+    ERROR_CONVERSION = 249,
   };
 
   enum Params : uint8_t
@@ -371,29 +368,13 @@ private:
   ResultCodes powering(); // Detect power mode
   ResultCodes cpyRom(const Address address); // Copy address to ROM buffer
   inline void resetRom() { memset(_rom.buffer, 0, Params::ADDRESS_LEN); }
+  ResultCodes conversionWait();
   ResultCodes readScratchpad();
   ResultCodes writeScratchpad();
   inline void resetScratchpad()
   {
     memset(_memory.buffer, 0, Params::SCRATCHPAD_LEN);
   }
-
-  void conversionWait()
-  {
-    if (_bus.powerExternal)
-    {
-      // Read time slot
-      while (!read_bit())
-      {
-        continue;
-      }
-    }
-    else
-      delay(getConvMillis()); // Waiting conversion time period
-  }
-
-  // Get temperature for comparison to alarm value for selected device
-  int8_t getAlarmTemp();
 };
 
 #endif

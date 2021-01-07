@@ -38,6 +38,7 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::devices()
 gbj_ds18b20::ResultCodes gbj_ds18b20::sensors()
 {
   static uint8_t iterations;
+  setLastResult();
   while (search(_rom.buffer))
   {
     if (getFamilyCode() != Params::FAMILY_CODE)
@@ -145,8 +146,7 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::conversion()
   reset();
   skip();
   write(CommandsFnc::CONVERT_T, isPowerParasite());
-  conversionWait();
-  return getLastResult();
+  return conversionWait();
 }
 
 gbj_ds18b20::ResultCodes gbj_ds18b20::measureTemperature(const Address address)
@@ -156,8 +156,11 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::measureTemperature(const Address address)
   reset();
   select(_rom.buffer);
   write(CommandsFnc::CONVERT_T, isPowerParasite());
-  conversionWait();
-  return readScratchpad();
+  if (isSuccess(conversionWait()))
+  {
+    readScratchpad();
+  }
+  return getLastResult();
 }
 
 gbj_ds18b20::ResultCodes gbj_ds18b20::cpyRom(const Address address)
@@ -170,5 +173,27 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::cpyRom(const Address address)
     return setLastResult(ResultCodes::ERROR_CRC_ADDRESS);
   // Copy address to buffer
   memcpy(_rom.buffer, address, Params::ADDRESS_LEN);
+  return getLastResult();
+}
+
+gbj_ds18b20::ResultCodes gbj_ds18b20::conversionWait()
+{
+  if (_bus.powerExternal)
+  {
+    // Read time slot
+    uint32_t tsConv = millis();
+    while (!read_bit())
+    {
+      if (millis() - tsConv > getConvMillis())
+      {
+        return setLastResult(ResultCodes::ERROR_CONVERSION);
+      }
+      continue;
+    }
+  }
+  else
+  {
+    delay(getConvMillis()); // Waiting conversion time period
+  }
   return getLastResult();
 }

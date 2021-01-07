@@ -91,6 +91,10 @@ void errorHandler()
       Serial.println("ERROR_ALARM_HIGH");
       break;
 
+    case gbj_ds18b20::ERROR_CONVERSION:
+      Serial.println("ERROR_CONVERSION");
+      break;
+
     default:
       Serial.println("Unknown error");
       break;
