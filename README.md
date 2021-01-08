@@ -845,13 +845,13 @@ The method returns number of milliseconds needed for temperature conversion depe
 * The conversion time determines maximal measurement frequency.
 
 #### Syntax
-    uint8_t getConvMillis()
+    uint16_t getConvMillis()
 
 #### Parameters
 None
 
 #### Returns
-Number of milliseconds that the temperature conversion is going to last at least.
+Number of milliseconds that the temperature conversion is going to last, usually at most.
 
 #### See also
 [getResolution()](#getResolution)

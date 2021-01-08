@@ -178,6 +178,7 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::cpyRom(const Address address)
 
 gbj_ds18b20::ResultCodes gbj_ds18b20::conversionWait()
 {
+  setLastResult();
   if (_bus.powerExternal)
   {
     // Read time slot
@@ -186,7 +187,8 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::conversionWait()
     {
       if (millis() - tsConv > getConvMillis())
       {
-        return setLastResult(ResultCodes::ERROR_CONVERSION);
+        setLastResult(ResultCodes::ERROR_CONVERSION);
+        break;
       }
       continue;
     }

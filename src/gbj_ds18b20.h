@@ -299,7 +299,7 @@ public:
     temp |= _memory.scratchpad.temp_lsb & _bus.tempMask[getResolution()];
     return (float)temp / 16.0;
   }
-  inline uint8_t getConvMillis() { return _bus.tempMillis[getResolution()]; }
+  inline uint16_t getConvMillis() { return _bus.tempMillis[getResolution()]; }
 
 private:
   enum ConfigRegBit : uint8_t

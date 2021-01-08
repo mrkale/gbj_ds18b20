@@ -4,7 +4,8 @@
 
   DESCRIPTION:
   The sketch identifies all active temperature sensors on the one-wire bus
-  and lists parameters for each of them.
+  and lists parameters for each of them. Then starts periodical temperature
+  measuring by all of them.
 
   LICENSE:
   This program is free software; you can redistribute it and/or modify
@@ -17,6 +18,7 @@
 
 #define SKETCH "GBJ_DS18B20_SENSORS 1.0.0"
 
+const unsigned int PERIOD_MEASURE = 3000; // Miliseconds between measurements
 const unsigned char PIN_ONEWIRE = 4; // Pin for one-wire bus
 
 gbj_ds18b20 ds = gbj_ds18b20(PIN_ONEWIRE);
@@ -136,4 +138,17 @@ void setup()
   errorHandler();
 }
 
-void loop() {}
+void loop()
+{
+  if (ds.conversion())
+  {
+    errorHandler();
+  }
+  while (ds.isSuccess(ds.sensors()))
+  {
+    Serial.println();
+    Serial.println("Temperature (" + String(ds.getId()) +
+                   "): " + String(ds.getTemperature(), 4) + " 'C");
+  }
+  delay(PERIOD_MEASURE);
+}
