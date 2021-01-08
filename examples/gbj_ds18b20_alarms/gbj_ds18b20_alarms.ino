@@ -134,7 +134,7 @@ void setup()
         break;
 
       default:
-        ds.cacheResolutionReset();
+        ds.cacheResolutionBits();
         ds.cacheAlarmsReset();
         break;
     }

@@ -10,8 +10,8 @@
     libraries with the same conversion functionalities.
   - Library provides a device identifier taken from last (CRC) byte of a
     device's hardware ROM address.
-  - At temperature alarm processing an alarm temperature is converted from integer
-    to float right before comparison.
+  - At temperature alarm processing an alarm temperature is converted from
+  integer to float right before comparison.
   - Library is primarily aimed for working with all sensors on the one-wire bus
     in a loop, so that they need not to be identified by an address in advance.
     Thus, all getters and setters are valid for currently selected sensor
@@ -181,7 +181,23 @@ public:
   inline void cacheResolution_10bits() { _memory.scratchpad.config = 0x3F; }
   inline void cacheResolution_11bits() { _memory.scratchpad.config = 0x5F; }
   inline void cacheResolution_12bits() { _memory.scratchpad.config = 0x7F; }
-  inline void cacheResolutionReset() { cacheResolution_12bits(); }
+  inline void cacheResolutionBits(uint8_t resolution = 12)
+  {
+    resolution = constrain(
+      resolution,
+      _bus.tempBits[0],
+      _bus.tempBits[sizeof(_bus.tempBits) / sizeof(_bus.tempBits[0])]);
+    cacheResolution_9bits();
+    for (uint8_t i = 0; i < sizeof(_bus.tempBits) / sizeof(_bus.tempBits[0]);
+         i++)
+    {
+      if (_bus.tempBits[i] == resolution)
+      {
+        _memory.scratchpad.config += 0x20 * i;
+        break;
+      }
+    }
+  }
   inline void cacheAlarmLow(int8_t alarmValue)
   {
     _memory.scratchpad.alarm_lsb =
@@ -267,7 +283,11 @@ public:
     memcpy(scratchpad, _memory.buffer, Params::SCRATCHPAD_LEN);
   }
   inline uint8_t getResolutionBits() { return _bus.tempBits[getResolution()]; }
-  inline float getResolutionTemp() { return _bus.tempDegs[getResolution()]; }
+  inline float getResolutionTemp()
+  {
+    uint8_t denom = 2 << getResolution();
+    return 1.0 / denom;
+  }
   inline uint8_t getResolution()
   {
     uint8_t resolution = _memory.scratchpad.config >> ConfigRegBit::R0;
@@ -346,10 +366,6 @@ private:
       375,
       750
     }; // Maximal conversion times in milliseconds
-    float tempDegs[4] = { 0.5,
-                          0.25,
-                          0.125,
-                          0.0625 }; // Resolutions in centigrades
     uint8_t pinBus;
     uint8_t resolution; // The highest resolution of all devices
     bool powerExternal; // Flag about all devices powered externally

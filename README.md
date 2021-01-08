@@ -119,7 +119,7 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 * [cacheResolution_11bits()](#cacheResolution)
 * [cacheResolution_12bits()](#cacheResolution)
 * [cacheResolution_9bits()](#cacheResolution)
-* [cacheResolutionReset()](#cacheResolution)
+* [cacheResolutionBits()](#cacheResolutionBits)
 * [**setCache()**](#setCache)
 * [**setLastResult()**](#setLastResult)
 
@@ -551,18 +551,16 @@ None
 
 
 <a id="cacheResolution"></a>
-## cacheResolution_9bits(), cacheResolution_10bits(), cacheResolution_11bits(), cacheResolution_12bits(), cacheResolutionReset()
+## cacheResolution_9bits(), cacheResolution_10bits(), cacheResolution_11bits(), cacheResolution_12bits()
 
 #### Description
 Corresponding method writes temperature measurement resolution in bits from its name to internal buffer representing configuration register of the scratchpad.
-* The method _cacheResolutionReset()_ sets factory default resolution 12 bits.
 
 #### Syntax
     void cacheResolution_9bits(void)
     void cacheResolution_10bits(void)
     void cacheResolution_11bits(void)
     void cacheResolution_12bits(void)
-    void cacheResolutionReset()
 
 #### Parameters
 None
@@ -573,11 +571,36 @@ None
 #### See also
 [setCache()](#setCache)
 
-[getResolution()](#getResolution)
+[cacheResolutionBits()](#cacheResolutionBits)
+
+[getResolutionBits()](#getResolution)
+
+[Back to interface](#interface)
+
+
+<a id="cacheResolutionBits"></a>
+## cacheResolutionBits()
+
+#### Description
+The method writes desired temperature measurement resolution in bits to internal buffer representing configuration register of the scratchpad.
+
+#### Syntax
+    void cacheResolutionBits(uint8_t resolution)
+
+#### Parameters
+* **resolution**: Temperature measurement resolution in bits.
+  * *Valid values*: non-negative integer 9 ~ 12
+  * *Default value*: 12 (factory default resolution)
+
+#### Returns
+None
+
+#### See also
+[setCache()](#setCache)
+
+[cacheResolution_9bits(), cacheResolution_10bits(), cacheResolution_11bits(), cacheResolution_12bits()](#cacheResolution)
 
 [getResolutionBits()](#getResolutionBits)
-
-[getResolutionTemp()](#getResolutionTemp)
 
 [Back to interface](#interface)
 
@@ -600,9 +623,11 @@ Result code from [Result and error codes](#results) about writing scratchpad and
 #### See also
 [getCache()](#getCache)
 
-[cacheAlarmLow(), cacheAlarmHigh(), cacheAlarmsReset()](#cacheAlarm)
+[cacheResolutionBits()](#cacheResolutionBits)
 
-[cacheResolution_9bits(), cacheResolution_10bits(), cacheResolution_11bits(), cacheResolution_12bits(), cacheResolutionReset()](#cacheResolution)
+[cacheResolution_9bits(), cacheResolution_10bits(), cacheResolution_11bits(), cacheResolution_12bits()](#cacheResolution)
+
+[cacheAlarmLow(), cacheAlarmHigh(), cacheAlarmsReset()](#cacheAlarm)
 
 [Back to interface](#interface)
 
