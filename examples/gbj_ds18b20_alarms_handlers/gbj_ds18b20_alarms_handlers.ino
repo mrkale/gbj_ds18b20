@@ -140,13 +140,13 @@ void setup()
     switch (ds.getId())
     {
       case 0x86 /* Top sensor */:
-        ds.cacheResolution_10bits();
+        ds.cacheResolutionBits(10);
         ds.cacheAlarmLow(19);
         ds.cacheAlarmHigh(27);
         break;
 
       case 0x6c /* Bottom sensor */:
-        ds.cacheResolution_9bits();
+        ds.cacheResolutionBits(9);
         ds.cacheAlarmLow(30);
         ds.cacheAlarmHigh(35);
         break;

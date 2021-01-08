@@ -140,13 +140,13 @@ void setup()
 
 void loop()
 {
+  Serial.println();
   if (ds.conversion())
   {
     errorHandler();
   }
   while (ds.isSuccess(ds.sensors()))
   {
-    Serial.println();
     Serial.println("Temperature (" + String(ds.getId()) +
                    "): " + String(ds.getTemperature(), 4) + " 'C");
   }

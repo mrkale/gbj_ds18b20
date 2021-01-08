@@ -134,7 +134,7 @@ void test_device_alarm_high_factory(void)
 
 void test_device_resolution_9(void)
 {
-  ds.cacheResolution_9bits();
+  ds.cacheResolutionBits(9);
   test_device_cache_set();
   test_device_cache_get();
   TEST_ASSERT_EQUAL_UINT8(9, ds.getResolutionBits());
@@ -142,7 +142,7 @@ void test_device_resolution_9(void)
 
 void test_device_resolution_10(void)
 {
-  ds.cacheResolution_10bits();
+  ds.cacheResolutionBits(10);
   test_device_cache_set();
   test_device_cache_get();
   TEST_ASSERT_EQUAL_UINT8(10, ds.getResolutionBits());
@@ -150,7 +150,7 @@ void test_device_resolution_10(void)
 
 void test_device_resolution_11(void)
 {
-  ds.cacheResolution_11bits();
+  ds.cacheResolutionBits(11);
   test_device_cache_set();
   test_device_cache_get();
   TEST_ASSERT_EQUAL_UINT8(11, ds.getResolutionBits());
@@ -158,7 +158,7 @@ void test_device_resolution_11(void)
 
 void test_device_resolution_12(void)
 {
-  ds.cacheResolution_12bits();
+  ds.cacheResolutionBits(12);
   test_device_cache_set();
   test_device_cache_get();
   TEST_ASSERT_EQUAL_UINT8(12, ds.getResolutionBits());

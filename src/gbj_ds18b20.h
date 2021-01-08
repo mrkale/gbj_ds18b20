@@ -177,17 +177,13 @@ public:
   {
     return _status.lastResult = result;
   }
-  inline void cacheResolution_9bits() { _memory.scratchpad.config = 0x1F; }
-  inline void cacheResolution_10bits() { _memory.scratchpad.config = 0x3F; }
-  inline void cacheResolution_11bits() { _memory.scratchpad.config = 0x5F; }
-  inline void cacheResolution_12bits() { _memory.scratchpad.config = 0x7F; }
   inline void cacheResolutionBits(uint8_t resolution = 12)
   {
     resolution = constrain(
       resolution,
       _bus.tempBits[0],
       _bus.tempBits[sizeof(_bus.tempBits) / sizeof(_bus.tempBits[0])]);
-    cacheResolution_9bits();
+    _memory.scratchpad.config = 0x1F;
     for (uint8_t i = 0; i < sizeof(_bus.tempBits) / sizeof(_bus.tempBits[0]);
          i++)
     {

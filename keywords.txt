@@ -18,10 +18,6 @@ alarms	KEYWORD2
 cacheAlarmHigh	KEYWORD2
 cacheAlarmLow	KEYWORD2
 cacheAlarmReset	KEYWORD2
-cacheResolution_10bits	KEYWORD2
-cacheResolution_11bits	KEYWORD2
-cacheResolution_12bits	KEYWORD2
-cacheResolution_9bits	KEYWORD2
 cacheResolutionBits	KEYWORD2
 conversion	KEYWORD2
 cpyAddress	KEYWORD2

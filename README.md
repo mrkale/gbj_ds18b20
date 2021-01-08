@@ -115,10 +115,6 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 * [cacheAlarmHigh()](#cacheAlarm)
 * [cacheAlarmLow()](#cacheAlarm)
 * [cacheAlarmReset()](#cacheAlarm)
-* [cacheResolution_10bits()](#cacheResolution)
-* [cacheResolution_11bits()](#cacheResolution)
-* [cacheResolution_12bits()](#cacheResolution)
-* [cacheResolution_9bits()](#cacheResolution)
 * [cacheResolutionBits()](#cacheResolutionBits)
 * [**setCache()**](#setCache)
 * [**setLastResult()**](#setLastResult)
@@ -550,34 +546,6 @@ None
 [Back to interface](#interface)
 
 
-<a id="cacheResolution"></a>
-## cacheResolution_9bits(), cacheResolution_10bits(), cacheResolution_11bits(), cacheResolution_12bits()
-
-#### Description
-Corresponding method writes temperature measurement resolution in bits from its name to internal buffer representing configuration register of the scratchpad.
-
-#### Syntax
-    void cacheResolution_9bits(void)
-    void cacheResolution_10bits(void)
-    void cacheResolution_11bits(void)
-    void cacheResolution_12bits(void)
-
-#### Parameters
-None
-
-#### Returns
-None
-
-#### See also
-[setCache()](#setCache)
-
-[cacheResolutionBits()](#cacheResolutionBits)
-
-[getResolutionBits()](#getResolution)
-
-[Back to interface](#interface)
-
-
 <a id="cacheResolutionBits"></a>
 ## cacheResolutionBits()
 
@@ -597,8 +565,6 @@ None
 
 #### See also
 [setCache()](#setCache)
-
-[cacheResolution_9bits(), cacheResolution_10bits(), cacheResolution_11bits(), cacheResolution_12bits()](#cacheResolution)
 
 [getResolutionBits()](#getResolutionBits)
 
@@ -624,8 +590,6 @@ Result code from [Result and error codes](#results) about writing scratchpad and
 [getCache()](#getCache)
 
 [cacheResolutionBits()](#cacheResolutionBits)
-
-[cacheResolution_9bits(), cacheResolution_10bits(), cacheResolution_11bits(), cacheResolution_12bits()](#cacheResolution)
 
 [cacheAlarmLow(), cacheAlarmHigh(), cacheAlarmsReset()](#cacheAlarm)
 

@@ -122,13 +122,13 @@ void setup()
     switch (ds.getId())
     {
       case 0x86:
-        ds.cacheResolution_10bits();
+        ds.cacheResolutionBits(10);
         ds.cacheAlarmLow(-9);
         ds.cacheAlarmHigh(+2);
         break;
 
       case 0x6c:
-        ds.cacheResolution_9bits();
+        ds.cacheResolutionBits(9);
         ds.cacheAlarmLow(25);
         ds.cacheAlarmHigh(29);
         break;
