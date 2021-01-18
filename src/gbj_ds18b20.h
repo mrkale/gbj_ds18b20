@@ -252,16 +252,16 @@ public:
   }
   inline int8_t getAlarmLow() { return _memory.scratchpad.alarm_lsb; }
   inline int8_t getAlarmHigh() { return _memory.scratchpad.alarm_msb; }
-  inline int8_t getAlarmLowIni() { return 70; }
-  inline int8_t getAlarmHighIni() { return 75; }
+  static inline int8_t getAlarmLowIni() { return 70; }
+  static inline int8_t getAlarmHighIni() { return 75; }
   inline uint8_t getPin() { return _bus.pinBus; }
   inline uint8_t getDevices() { return _bus.devices; }
   inline uint8_t getSensors() { return _bus.sensors; }
   inline uint8_t getFamilyCode() { return _rom.address.family; }
   inline uint8_t getId() { return _rom.address.crc; }
-  inline float getTemperatureMin() { return -55.0; }
-  inline float getTemperatureMax() { return 125.0; }
-  inline float getTemperatureIni() { return 85.0; }
+  static inline float getTemperatureMin() { return -55.0; }
+  static inline float getTemperatureMax() { return 125.0; }
+  static inline float getTemperatureIni() { return 85.0; }
   inline bool isPowerExternal() { return _bus.powerExternal; }
   inline bool isPowerParasite() { return !isPowerExternal(); }
   inline uint8_t *getAddressRef() { return _rom.buffer; }
