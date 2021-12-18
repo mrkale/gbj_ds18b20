@@ -103,9 +103,9 @@ public:
               Handler *alarmHandlerHigh = 0)
     : OneWire(pinBus)
   {
-    _bus.pinBus = pinBus;
-    _bus.alarmHandlerLow = alarmHandlerLow;
-    _bus.alarmHandlerHigh = alarmHandlerHigh;
+    bus_.pinBus = pinBus;
+    bus_.alarmHandlerLow = alarmHandlerLow;
+    bus_.alarmHandlerHigh = alarmHandlerHigh;
     if (isError(powering()))
       return;
     devices();
@@ -175,33 +175,33 @@ public:
   // Public setters
   inline ResultCodes setLastResult(ResultCodes result = ResultCodes::SUCCESS)
   {
-    return _status.lastResult = result;
+    return status_.lastResult = result;
   }
   inline void cacheResolutionBits(uint8_t resolution = 12)
   {
     resolution = constrain(
       resolution,
-      _bus.tempBits[0],
-      _bus.tempBits[sizeof(_bus.tempBits) / sizeof(_bus.tempBits[0])]);
-    _memory.scratchpad.config = 0x1F;
-    for (uint8_t i = 0; i < sizeof(_bus.tempBits) / sizeof(_bus.tempBits[0]);
+      bus_.tempBits[0],
+      bus_.tempBits[sizeof(bus_.tempBits) / sizeof(bus_.tempBits[0])]);
+    memory_.scratchpad.config = 0x1F;
+    for (uint8_t i = 0; i < sizeof(bus_.tempBits) / sizeof(bus_.tempBits[0]);
          i++)
     {
-      if (_bus.tempBits[i] == resolution)
+      if (bus_.tempBits[i] == resolution)
       {
-        _memory.scratchpad.config += 0x20 * i;
+        memory_.scratchpad.config += 0x20 * i;
         break;
       }
     }
   }
   inline void cacheAlarmLow(int8_t alarmValue)
   {
-    _memory.scratchpad.alarm_lsb =
+    memory_.scratchpad.alarm_lsb =
       constrain(alarmValue, (int)getTemperatureMin(), (int)getTemperatureMax());
   }
   inline void cacheAlarmHigh(int8_t alarmValue)
   {
-    _memory.scratchpad.alarm_msb =
+    memory_.scratchpad.alarm_msb =
       constrain(alarmValue, (int)getTemperatureMin(), (int)getTemperatureMax());
   }
   inline void cacheAlarmsReset()
@@ -212,9 +212,9 @@ public:
   inline ResultCodes setCache() { return writeScratchpad(); }
 
   // Public getters
-  inline ResultCodes getLastResult() { return _status.lastResult; }
+  inline ResultCodes getLastResult() { return status_.lastResult; }
   inline ResultCodes getCache() { return readScratchpad(); }
-  inline bool isSuccess() { return _status.lastResult == ResultCodes::SUCCESS; }
+  inline bool isSuccess() { return status_.lastResult == ResultCodes::SUCCESS; }
   inline bool isSuccess(ResultCodes result)
   {
     setLastResult(result);
@@ -228,7 +228,7 @@ public:
   }
   inline bool isAlarmLow()
   {
-    return _status.lastResult == ResultCodes::ERROR_ALARM_LOW;
+    return status_.lastResult == ResultCodes::ERROR_ALARM_LOW;
   }
   inline bool isAlarmLow(ResultCodes result)
   {
@@ -237,7 +237,7 @@ public:
   }
   inline bool isAlarmHigh()
   {
-    return _status.lastResult == ResultCodes::ERROR_ALARM_HIGH;
+    return status_.lastResult == ResultCodes::ERROR_ALARM_HIGH;
   }
   inline bool isAlarmHigh(ResultCodes result)
   {
@@ -250,35 +250,35 @@ public:
     setLastResult(result);
     return isAlarmLow() || isAlarmHigh();
   }
-  inline int8_t getAlarmLow() { return _memory.scratchpad.alarm_lsb; }
-  inline int8_t getAlarmHigh() { return _memory.scratchpad.alarm_msb; }
+  inline int8_t getAlarmLow() { return memory_.scratchpad.alarm_lsb; }
+  inline int8_t getAlarmHigh() { return memory_.scratchpad.alarm_msb; }
   static inline int8_t getAlarmLowIni() { return 70; }
   static inline int8_t getAlarmHighIni() { return 75; }
-  inline uint8_t getPin() { return _bus.pinBus; }
-  inline uint8_t getDevices() { return _bus.devices; }
-  inline uint8_t getSensors() { return _bus.sensors; }
-  inline uint8_t getFamilyCode() { return _rom.address.family; }
-  inline uint8_t getId() { return _rom.address.crc; }
+  inline uint8_t getPin() { return bus_.pinBus; }
+  inline uint8_t getDevices() { return bus_.devices; }
+  inline uint8_t getSensors() { return bus_.sensors; }
+  inline uint8_t getFamilyCode() { return rom_.address.family; }
+  inline uint8_t getId() { return rom_.address.crc; }
   static inline float getTemperatureMin() { return -55.0; }
   static inline float getTemperatureMax() { return 125.0; }
   static inline float getTemperatureIni() { return 85.0; }
-  inline bool isPowerExternal() { return _bus.powerExternal; }
+  inline bool isPowerExternal() { return bus_.powerExternal; }
   inline bool isPowerParasite() { return !isPowerExternal(); }
-  inline uint8_t *getAddressRef() { return _rom.buffer; }
-  inline uint8_t *getScratchpadRef() { return _memory.buffer; }
+  inline uint8_t *getAddressRef() { return rom_.buffer; }
+  inline uint8_t *getScratchpadRef() { return memory_.buffer; }
   inline void cpyAddress(Address address)
   {
-    memcpy(address, _rom.buffer, Params::ADDRESS_LEN);
+    memcpy(address, rom_.buffer, Params::ADDRESS_LEN);
   }
   inline void cpySernum(Sernum sernum)
   {
-    memcpy(sernum, _rom.address.sernum, Params::SERNUM_LEN);
+    memcpy(sernum, rom_.address.sernum, Params::SERNUM_LEN);
   }
   inline void cpyScratchpad(Scratchpad scratchpad)
   {
-    memcpy(scratchpad, _memory.buffer, Params::SCRATCHPAD_LEN);
+    memcpy(scratchpad, memory_.buffer, Params::SCRATCHPAD_LEN);
   }
-  inline uint8_t getResolutionBits() { return _bus.tempBits[getResolution()]; }
+  inline uint8_t getResolutionBits() { return bus_.tempBits[getResolution()]; }
   inline float getResolutionTemp()
   {
     uint8_t denom = 2 << getResolution();
@@ -286,16 +286,16 @@ public:
   }
   inline uint8_t getResolution()
   {
-    uint8_t resolution = _memory.scratchpad.config >> ConfigRegBit::R0;
+    uint8_t resolution = memory_.scratchpad.config >> ConfigRegBit::R0;
     return resolution & 0b11;
   }
   float getTemperature()
   {
-    int16_t temp = _memory.scratchpad.temp_msb << 8;
-    temp |= _memory.scratchpad.temp_lsb & _bus.tempMask[getResolution()];
+    int16_t temp = memory_.scratchpad.temp_msb << 8;
+    temp |= memory_.scratchpad.temp_lsb & bus_.tempMask[getResolution()];
     return (float)temp / 16.0;
   }
-  inline uint16_t getConvMillis() { return _bus.tempMillis[getResolution()]; }
+  inline uint16_t getConvMillis() { return bus_.tempMillis[getResolution()]; }
 
 private:
   enum ConfigRegBit : uint8_t
@@ -332,7 +332,7 @@ private:
       uint8_t sernum[6];
       uint8_t crc;
     } address;
-  } _rom;
+  } rom_;
 
   union Memory
   {
@@ -349,7 +349,7 @@ private:
       uint8_t res_10;
       uint8_t crc;
     } scratchpad;
-  } _memory;
+  } memory_;
 
   struct Bus
   {
@@ -369,23 +369,23 @@ private:
     uint8_t sensors; // The number of temperature sensors on the bus
     Handler *alarmHandlerLow; // Global alarm handlers
     Handler *alarmHandlerHigh;
-  } _bus;
+  } bus_;
 
   struct Status
   {
     ResultCodes lastResult;
-  } _status;
+  } status_;
 
   ResultCodes devices(); // Statistics of devices on the bus
   ResultCodes powering(); // Detect power mode
   ResultCodes cpyRom(const Address address); // Copy address to ROM buffer
-  inline void resetRom() { memset(_rom.buffer, 0, Params::ADDRESS_LEN); }
+  inline void resetRom() { memset(rom_.buffer, 0, Params::ADDRESS_LEN); }
   ResultCodes conversionWait();
   ResultCodes readScratchpad();
   ResultCodes writeScratchpad();
   inline void resetScratchpad()
   {
-    memset(_memory.buffer, 0, Params::SCRATCHPAD_LEN);
+    memset(memory_.buffer, 0, Params::SCRATCHPAD_LEN);
   }
 };
 

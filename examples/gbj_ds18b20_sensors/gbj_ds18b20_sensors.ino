@@ -6,6 +6,8 @@
   The sketch identifies all active temperature sensors on the one-wire bus
   and lists parameters for each of them. Then starts periodical temperature
   measuring by all of them.
+  - The sketch displays bus and sensors parameters from looop to loop enabling
+    experimenting with addition and removing sensors on the fly.
 
   LICENSE:
   This program is free software; you can redistribute it and/or modify
@@ -16,10 +18,13 @@
 */
 #include "gbj_ds18b20.h"
 
-#define SKETCH "GBJ_DS18B20_SENSORS 1.0.0"
+#define SKETCH "GBJ_DS18B20_SENSORS 1.1.0"
 
-const unsigned int PERIOD_MEASURE = 3000; // Miliseconds between measurements
+const unsigned long SERIAL_DEBUG_BAUD = 9600;
+const unsigned int PERIOD_LOOP = 3000; // Milliseconds at the end of the loop
+const unsigned int MANIFEST_COUNT = 5; // Loops for manifest run
 const unsigned char PIN_ONEWIRE = 4; // Pin for one-wire bus
+unsigned int step;
 
 gbj_ds18b20 ds = gbj_ds18b20(PIN_ONEWIRE);
 gbj_ds18b20::Address address;
@@ -103,20 +108,8 @@ void errorHandler()
   }
 }
 
-void setup()
+void devices()
 {
-  Serial.begin(9600);
-  Serial.println(); // Some sernum monitors display garbage at the begining
-  Serial.println(SKETCH);
-  Serial.println("Libraries:");
-  Serial.println(gbj_ds18b20::VERSION);
-  Serial.println("---");
-  Serial.println("One-wire statistics");
-  Serial.println("Powered: " +
-                 String(ds.isPowerParasite() ? "Parasite" : "External"));
-  Serial.println("Devices: " + String(ds.getDevices()));
-  Serial.println("Sensors: " + String(ds.getSensors()));
-  Serial.println("---");
   uint8_t deviceNum = 0;
   while (ds.isSuccess(ds.sensors()))
   {
@@ -135,20 +128,47 @@ void setup()
     Serial.println("Alarm High: " + String(ds.getAlarmHigh()) + " 'C");
     Serial.println("---");
   }
+}
+
+void manifest()
+{
+  Serial.println();
+  Serial.println("---");
+  Serial.println(SKETCH);
+  Serial.println("Libraries:");
+  Serial.println(gbj_ds18b20::VERSION);
+  Serial.println("---");
+  Serial.println("One-wire statistics");
+  Serial.println("Powered: " +
+                 String(ds.isPowerParasite() ? "Parasite" : "External"));
+  Serial.println("Devices: " + String(ds.getDevices()));
+  Serial.println("Sensors: " + String(ds.getSensors()));
+  Serial.println("---");
+  devices();
   errorHandler();
+}
+
+void setup()
+{
+  Serial.begin(SERIAL_DEBUG_BAUD);
 }
 
 void loop()
 {
-  Serial.println();
+  if (step++ % MANIFEST_COUNT == 0)
+  {
+    manifest();
+  }
+
   if (ds.conversion())
   {
     errorHandler();
   }
+
   while (ds.isSuccess(ds.sensors()))
   {
-    Serial.println("Temperature (" + String(ds.getId()) +
+    Serial.println(String(step) + ". Temperature (" + String(ds.getId()) +
                    "): " + String(ds.getTemperature(), 4) + " 'C");
   }
-  delay(PERIOD_MEASURE);
+  delay(PERIOD_LOOP);
 }

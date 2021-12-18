@@ -7,7 +7,7 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::powering()
   reset();
   skip();
   write(CommandsFnc::READ_POWER_SUPPLY);
-  _bus.powerExternal = read_bit();
+  bus_.powerExternal = read_bit();
   return getLastResult();
 }
 
@@ -15,22 +15,22 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::devices()
 {
   setLastResult();
   // Count all devices on the bus
-  _bus.devices = 0;
-  _bus.sensors = 0;
-  while (search(_rom.buffer))
+  bus_.devices = 0;
+  bus_.sensors = 0;
+  while (search(rom_.buffer))
   {
-    if (_rom.address.crc != crc8(_rom.buffer, Params::ADDRESS_LEN - 1))
+    if (rom_.address.crc != crc8(rom_.buffer, Params::ADDRESS_LEN - 1))
       return setLastResult(ResultCodes::ERROR_CRC_ADDRESS);
-    _bus.devices++;
+    bus_.devices++;
     if (getFamilyCode() == Params::FAMILY_CODE)
     {
-      _bus.sensors++;
+      bus_.sensors++;
       if (isSuccess(readScratchpad()))
-        _bus.resolution = max(_bus.resolution, getResolution());
+        bus_.resolution = max(bus_.resolution, getResolution());
     }
   }
   reset_search();
-  if (_bus.devices == 0)
+  if (bus_.devices == 0)
     setLastResult(ResultCodes::ERROR_NO_DEVICE);
   return getLastResult();
 }
@@ -39,7 +39,7 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::sensors()
 {
   static uint8_t iterations;
   setLastResult();
-  while (search(_rom.buffer))
+  while (search(rom_.buffer))
   {
     if (getFamilyCode() != Params::FAMILY_CODE)
       continue;
@@ -64,7 +64,7 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::alarms()
 {
   static uint8_t iterations;
   // Conditional search
-  while (search(_rom.buffer, false))
+  while (search(rom_.buffer, false))
   {
     if (getFamilyCode() != Params::FAMILY_CODE)
       continue;
@@ -74,15 +74,15 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::alarms()
       // Alarm low
       if (getTemperature() <= getAlarmLow())
       {
-        if (_bus.alarmHandlerLow)
-          _bus.alarmHandlerLow();
+        if (bus_.alarmHandlerLow)
+          bus_.alarmHandlerLow();
         setLastResult(ResultCodes::ERROR_ALARM_LOW);
       }
       // Alarm high
       if (getTemperature() >= getAlarmHigh())
       {
-        if (_bus.alarmHandlerHigh)
-          _bus.alarmHandlerHigh();
+        if (bus_.alarmHandlerHigh)
+          bus_.alarmHandlerHigh();
         setLastResult(ResultCodes::ERROR_ALARM_HIGH);
       }
     }
@@ -106,15 +106,15 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::readScratchpad()
   setLastResult();
   resetScratchpad();
   reset();
-  select(_rom.buffer);
+  select(rom_.buffer);
   write(CommandsFnc::READ_SCRATCHPAD);
-  read_bytes(_memory.buffer, Params::SCRATCHPAD_LEN);
+  read_bytes(memory_.buffer, Params::SCRATCHPAD_LEN);
   // Check zero config register - no sensor on the bus
-  if (_memory.scratchpad.config == 0)
+  if (memory_.scratchpad.config == 0)
     return setLastResult(ResultCodes::ERROR_NO_DEVICE);
   // Check scratchpad CRC
-  if (_memory.scratchpad.crc !=
-      crc8(_memory.buffer, Params::SCRATCHPAD_LEN - 1))
+  if (memory_.scratchpad.crc !=
+      crc8(memory_.buffer, Params::SCRATCHPAD_LEN - 1))
     return setLastResult(ResultCodes::ERROR_CRC_SCRATCHPAD);
   return getLastResult();
 }
@@ -123,16 +123,16 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::writeScratchpad()
 {
   setLastResult();
   reset();
-  select(_rom.buffer);
+  select(rom_.buffer);
   write(CommandsFnc::WRITE_SCRATCHPAD);
-  write(_memory.scratchpad.alarm_msb, isPowerParasite());
-  write(_memory.scratchpad.alarm_lsb, isPowerParasite());
-  write(_memory.scratchpad.config, isPowerParasite());
+  write(memory_.scratchpad.alarm_msb, isPowerParasite());
+  write(memory_.scratchpad.alarm_lsb, isPowerParasite());
+  write(memory_.scratchpad.config, isPowerParasite());
   // Read scratchpad for checking
   if (isError(readScratchpad()))
     return getLastResult();
   // Copy scratchpad to EEPROM
-  select(_rom.buffer);
+  select(rom_.buffer);
   write(CommandsFnc::COPY_SCRATCHPAD);
   // Wait 10 ms in parasitic power mode according to datasheet
   if (isPowerParasite())
@@ -154,7 +154,7 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::measureTemperature(const Address address)
   if (isError(cpyRom(address)))
     return getLastResult();
   reset();
-  select(_rom.buffer);
+  select(rom_.buffer);
   write(CommandsFnc::CONVERT_T, isPowerParasite());
   if (isSuccess(conversionWait()))
   {
@@ -172,14 +172,14 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::cpyRom(const Address address)
       crc8(address, Params::ADDRESS_LEN - 1))
     return setLastResult(ResultCodes::ERROR_CRC_ADDRESS);
   // Copy address to buffer
-  memcpy(_rom.buffer, address, Params::ADDRESS_LEN);
+  memcpy(rom_.buffer, address, Params::ADDRESS_LEN);
   return getLastResult();
 }
 
 gbj_ds18b20::ResultCodes gbj_ds18b20::conversionWait()
 {
   setLastResult();
-  if (_bus.powerExternal)
+  if (bus_.powerExternal)
   {
     // Read time slot
     uint32_t tsConv = millis();
