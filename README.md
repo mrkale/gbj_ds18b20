@@ -1,4 +1,5 @@
 <a id="library"></a>
+
 # gbj_ds18b20
 Library for Dallas Semiconductor DS18B20 one-wire temperature sensors.
 
@@ -9,9 +10,10 @@ Library for Dallas Semiconductor DS18B20 one-wire temperature sensors.
 * Library is primarily aimed for working with all sensors on the one-wire bus in a loop, so that they need not to be identified by an address in advance. Thus, all getters and setters are valid for currently selected sensor in a loop.
 * The loop aproach is useful even if there is just one temperature sensor on the one-wire bus. It enables to replace a sensor without any change in a program code even during operation in a running application if properly programmed.
 
-<a id="dependency"></a>
-## Dependency
 
+<a id="dependency"></a>
+
+## Dependency
 * **OneWire**: Library for communication on one-wire library #1 in PlatformIO Library Manager available at [https://platformio.org/lib/show/1/OneWire](https://platformio.org/lib/show/1/OneWire).
 
 #### Particle platform
@@ -26,21 +28,21 @@ Library for Dallas Semiconductor DS18B20 one-wire temperature sensors.
 
 
 <a id="tests"></a>
-## Unit testing
 
+## Unit testing
 The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, contains testing files, usually just one, with unit tests of library [gbj_DS18B20](#library) executable by [Unity](http://www.throwtheswitch.org/unity) test runner. Each testing file should be placed in an individual test folder of a particular project, usually in the structure `test/<testname>/<testfile>`.
 * **ds18b20.cpp**: Test suite providing test cases for all relevant public methods with connected real temperature sensor. Its ROM address should be set in the code of the test file directly.
 
 
 <a id="constants"></a>
-## Constants
 
+## Constants
 * **VERSION**: Name and semantic version of the library.
 
 
 <a id="params"></a>
-#### Parameters for buffers
 
+#### Parameters for buffers
 * **FAMILY\_CODE**  (`Params::FAMILY_CODE`): Implicit family code of the temperature sensor 0x28 (40).
 * **ADDRESS\_LEN**  (`Params::ADDRESS_LEN`): Number of bytes in the sensor's ROM.
 * **SERNUM\_LEN** (`Params::SERNUM_LEN`): Number of bytes in the sensor's serial number.
@@ -48,8 +50,8 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 
 
 <a id="results"></a>
-#### Result and error codes
 
+#### Result and error codes
 * **SUCCESS** (`ResultCodes::SUCCESS`): Successful processing of the recent function.
 * **END\_OF\_LIST** (`ResultCodes::END_OF_LIST`): Last sensor on the bus has been processed.
 * **ERROR\_NO\_DEVICE** (`ResultCodes::ERROR_NO_DEVICE`): No sensor on the one-wire bus detected.
@@ -62,15 +64,14 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 
 
 <a id="interface"></a>
-## Interface
 
+## Interface
 * It is possible to use functions from the parent library [OneWire](#dependency), which is extended by the [gbj_DS18B20](#library).
 * The methods in **bold** return [result or error codes](#results).
 * The getters in _italic_ are static and can be called directly from the library without need of their instantiation.
 
 
 ##### Custom data types
-
 * [Address](#address)
 * [Scratchpad](#scrathpad)
 * [Sernum](#Sernum)
@@ -78,7 +79,6 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 
 
 ##### Main functions
-
 * [gbj_ds18b20()](#constructor)
 * [**alarms()**](#alarms)
 * [**conversion()**](#conversion)
@@ -87,7 +87,6 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 
 
 ##### Alarm processing
-
 * [getAlarmHigh()](#getAlarm)
 * [getAlarmLow()](#getAlarm)
 * [isAlarm()](#isAlarm)
@@ -100,7 +99,6 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 
 
 ##### Utilities
-
 * [cpyAddress()](#cpyAddress)
 * [cpyScratchpad()](#cpyScratchpad)
 * [cpySernum()](#cpySernum)
@@ -111,8 +109,8 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 
 
 <a id="setters"></a>
-#### Setters
 
+#### Setters
 * [cacheAlarmHigh()](#cacheAlarm)
 * [cacheAlarmLow()](#cacheAlarm)
 * [cacheAlarmReset()](#cacheAlarm)
@@ -122,8 +120,8 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 
 
 <a id="getters"></a>
-#### Getters
 
+#### Getters
 * [cpyAddress()](#cpyAddress)
 * [cpyScratchpad()](#cpyScratchpad)
 * [cpySernum()](#cpySernum)
@@ -158,11 +156,11 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 
 
 <a id="address"></a>
+
 ## Address
 
 #### Description
 Custom data type determining the byte array for sensor hardware address (ROM).
-
 * The size of the address text is determined by the constant [ADDRESS\_LEN](#params).
 
 #### Syntax
@@ -177,6 +175,7 @@ gbj_ds18b20::Address address = {0x28, 0xC2, 0x51, 0x6F, 0x06, 0x00, 0x00, 0x6C};
 
 
 <a id="handler"></a>
+
 ## Handler()
 
 #### Description
@@ -207,11 +206,11 @@ gbj_ds18b20 ds = gbj_ds18b20(4, alarmHandlerLow);
 
 
 <a id="scratchpad"></a>
+
 ## Scratchpad
 
 #### Description
 Custom data type determining the byte array for sensor data buffer.
-
 * The size of the address text is determined by the constant [SCRATCHPAD\_LEN](#params).
 
 #### Syntax
@@ -221,11 +220,11 @@ Custom data type determining the byte array for sensor data buffer.
 
 
 <a id="Sernum"></a>
+
 ## Sernum
 
 #### Description
 Custom data type determining the byte array for sensor hardware serial number.
-
 * It is an inner part of the sensor ROM without the first family code byte and the last CRC byte.
 * The size of the address text is determined by the constant [SERNUM\_LEN](#params).
 * The sensor's serial number might be considered as a <abbr title="Media Access Control">MAC</abbr> address of it.
@@ -240,11 +239,11 @@ Custom data type determining the byte array for sensor hardware serial number.
 
 
 <a id="constructor"></a>
+
 ## gbj_ds18b20()
 
 #### Description
 Constructor creates the class instance object and alternatively sets alarm handlers.
-
 * Constructor resets the one-wire bus.
 * Constructor detects whether some of sensors on the bus is powered in parasitic mode.
 * Constructor counts all devices as well as DS18B20 temperature sensors on the bus.
@@ -289,11 +288,11 @@ gbj_ds18b20 ds = gbj_ds18b20(4, alarmHandlerLow, alarmHandlerHigh);
 
 
 <a id="alarms"></a>
+
 ## alarms()
 
 #### Description
 The method selects DS18B20 sensors active on the one-wire bus one by one, which are in the state of alarm signalling and for each of them reads scratchpad memory for further processing by getters and setters.
-
 * The method [conversion()](#conversion) for parallel temperature measurement should be called right before cycling the alarms.
 * The method returns an [error code](#results) for low or high alarm until there is a sensor with active alarm on the bus.
 * The type of an alarm or just its instance can be detected by corresponding getter.
@@ -330,6 +329,7 @@ void setup()
 
 
 <a id="conversion"></a>
+
 ## conversion()
 
 #### Description
@@ -355,11 +355,11 @@ Result code from [Result and error codes](#results).
 
 
 <a id="measureTemperature"></a>
+
 ## measureTemperature()
 
 #### Description
 The method initiates measurement conversion of the particular sensor with provided address on the one-wire bus and reads its scratchpad right after it.
-
 * The result is available by the getter [getTemperature()](#getTemperature).
 
 #### Syntax
@@ -373,7 +373,6 @@ The method initiates measurement conversion of the particular sensor with provid
 
 #### Returns
 Result code from [Result and error codes](#results).
-
 * If there is no device on the one-wire bus, the method returns the error code [ERROR\_NO\_DEVICE](#results).
 * If there is a device or more devices on the one-wire bus, but none with input ROM, the method returns the error code [ERROR\_CRC\_SCRATCHPAD](#results).
 
@@ -386,13 +385,14 @@ Result code from [Result and error codes](#results).
 
 
 <a id="sensors"></a>
+
 ## sensors()
 
 #### Description
 The method selects devices with DS18B20 family code and are active on the one-wire bus one by one and for each of them reads scratchpad memory for further processing by getters and setters.
-
 * The method returns success result code until there is an active sensor on the bus.
 * After selecting the last sensor the method resets searching process.
+* At the end of searching process the methods update number of sensors of the bus for getter [getSensors()](#getSensors).
 
 #### Syntax
     gbj_ds18b20::ResultCodes sensors()
@@ -418,15 +418,17 @@ void setup()
 #### See also
 [isSuccess()](#isResult)
 
+[getSensors()](#getSensors)
+
 [Back to interface](#interface)
 
 
 <a id="isAlarm"></a>
+
 ## isAlarmLow(), isAlarmHigh(), isAlarm()
 
 #### Description
 Corresponding method checks if selected device meets condition for low or high alarm or some of them detected right before.
-
 * Before calling corresponding method the method [alarms()](#alarms) should be called in order to detect alarm conditions. Usually it is called as an input parameter.
 * A method without input parameter evaluates result of recent operation, which should be the method [alarms()](#alarms).
 
@@ -475,11 +477,11 @@ while (ds.isAlarmLow(ds.alarms()))
 
 
 <a id="getAlarm"></a>
+
 ## getAlarmLow(), getAlarmHigh()
 
 #### Description
 Corresponding method returns currently set corresponding alarm temperature of selected device in centigrades.
-
 * If alarm signalling capability is not used, alarm condition values can be utilized as a general-purpose memory or 2-byte EEPROM respectively and these methods read stored signed bytes from EEPROM and the scratchpad.
 
 #### Syntax
@@ -499,11 +501,11 @@ Temperature in centigrades currently set as a low or high alarm condition respec
 
 
 <a id="getAlarmIni"></a>
+
 ## getAlarmLowIni(), getAlarmHighIni()
 
 #### Description
 Corresponding method returns factory initial setting of an alarm conditions (in EEPROM) for the DS18B20 sensors.
-
 * Method _getAlarmLowIni()_ returns low factory alarm condition 70 centigrade.
 * Method _getAlarmHighIni()_ returns high factory alarm condition 75 centigrade.
 * Those factory alarm conditions can be set by the method [cacheAlarmReset()](#cacheAlarm) and writing to the EEPROM with the method [setCache()](#setCache).
@@ -529,11 +531,11 @@ Factory temperature in centigrades as a low or high initial alarm condition resp
 
 
 <a id="cacheAlarm"></a>
+
 ## cacheAlarmLow(), cacheAlarmHigh(), cacheAlarmsReset()
 
 #### Description
 Corresponding method writes alarm condition to internal buffer representing scratchpad.
-
 * Alarm temperatures are in integer centigrades.
 * The method _cacheAlarmsReset()_ sets factory default alarm conditions **70 and 75** centigrades.
 * If alarm signalling capability is not used, alarm condition values can be utilized as a general-purpose memory or 2-byte EEPROM respectively and these methods write signed bytes to the scratchpad and EEPROM.
@@ -562,6 +564,7 @@ None
 
 
 <a id="cacheResolutionBits"></a>
+
 ## cacheResolutionBits()
 
 #### Description
@@ -587,6 +590,7 @@ None
 
 
 <a id="setCache"></a>
+
 ## setCache()
 
 #### Description
@@ -612,11 +616,11 @@ Result code from [Result and error codes](#results) about writing scratchpad and
 
 
 <a id="getCache"></a>
+
 ## getCache()
 
 #### Description
 The method reads the scratchpad from EEPROM and puts the concent to the internal cache.
-
 * The method is suitable for unit testing. Otherwise it is used internally by loop methods.
 
 #### Syntax
@@ -635,11 +639,11 @@ Result code from [Result and error codes](#results) about reading from EEPROM.
 
 
 <a id="getResolution"></a>
+
 ## getResolution()
 
 #### Description
 The method returns current resolution as a binary value from the configuration register in the scratchpad according to the datasheet.
-
 * The resolution determines the temperature conversion time needed at least.
 
 #### Syntax
@@ -662,6 +666,7 @@ Temperature resolution as an internal code from configuration register (R1, R0).
 
 
 <a id="getResolutionBits"></a>
+
 ## getResolutionBits()
 
 #### Description
@@ -685,6 +690,7 @@ Number of bits used for temperature measurement resolution in range 9 ~ 12.
 
 
 <a id="getResolutionTemp"></a>
+
 ## getResolutionTemp()
 
 #### Description
@@ -708,11 +714,11 @@ Temperature resolution of measurement in the range 0.0625 ~ 0.5 centigrade.
 
 
 <a id="getTemperature"></a>
+
 ## getTemperature()
 
 #### Description
 The method returns recently measured temperature.
-
 * It is useful for repeating utilizing the temperature without storing it in a separate variable in a sketch.
 
 #### Syntax
@@ -733,11 +739,11 @@ Recently measured temperature.
 
 
 <a id="getTempLimit"></a>
+
 ## getTemperatureMin(), getTemperatureMax(), getTemperatureIni()
 
 #### Description
 Corresponding method returns corresponding typical temperature features (static parameters) for the DS18B20 sensors temperature measurement range.
-
 * Methods _getTemperatureMin()_, _getTemperatureMax()_ return temperature measurement limits -55 ~ +125 centigrade.
 * Method _getTemperatureIni()_ returns power-on reset temperature 85 centigrade.
 
@@ -759,6 +765,7 @@ Typical temperature features -55, +125, +85 centigrade.
 
 
 <a id="getFamilyCode"></a>
+
 ## getFamilyCode()
 
 #### Description
@@ -777,6 +784,7 @@ Device specific internal code for product identification of the sensor. For DS18
 
 
 <a id="getId"></a>
+
 ## getId()
 
 #### Description
@@ -798,11 +806,11 @@ Short device identifier unique for all devices on the one-wire bus.
 
 
 <a id="getPin"></a>
+
 ## getPin()
 
 #### Description
 The method returns number of microcontroller pin mastering the one-wire bus.
-
 * It is the [pinBus](#prm_pinBus) parameter of the [constructor](#constructor).
 
 #### Syntax
@@ -821,11 +829,11 @@ Microcontroller pin number controlling one-wire bus.
 
 
 <a id="getConvMillis"></a>
+
 ## getConvMillis()
 
 #### Description
 The method returns number of milliseconds needed for temperature conversion depending on current temperature resolution.
-
 * The return value defines a waiting period with respect to the datasheet that should last before subsequent new temperature measurement.
 * The conversion time determines maximal measurement frequency.
 
@@ -845,10 +853,12 @@ Number of milliseconds that the temperature conversion is going to last, usually
 
 
 <a id="getDevices"></a>
+
 ## getDevices()
 
 #### Description
 The method returns number of active (communicating) devices on the one-wire bus of all families (not only DS18B20 sensors).
+* The number of devices is calculated just in the constructor, i.e., at the moment of the creation of a library instance object unlike updating the number of active DS18B20 temperature sensors at each bus iteration and returned by [getSensors()](#getSensors).
 
 #### Syntax
     uint8_t getDevices()
@@ -857,7 +867,7 @@ The method returns number of active (communicating) devices on the one-wire bus 
 None
 
 #### Returns
-Number of devices on the one-wire bus.
+Number of devices on the one-wire bus at creation of a library instance object.
 
 #### See also
 [getSensors()](#getSensors)
@@ -866,10 +876,13 @@ Number of devices on the one-wire bus.
 
 
 <a id="getSensors"></a>
+
 ## getSensors()
 
 #### Description
 The method returns number of active (communicating) DS18B20 temperature sensors on the one-wire bus.
+* The number of sensors is calculated the first time in the constructor and it is the number at the moment of creating a library instance object.
+* The number of sensors is updated at each iterating over the one-wire bus by the method [sensors()](#sensors).
 
 #### Syntax
     uint8_t getSensors()
@@ -878,7 +891,7 @@ The method returns number of active (communicating) DS18B20 temperature sensors 
 None
 
 #### Returns
-Number of DS18B20 sensors on the one-wire bus.
+Number of active DS18B20 sensors on the one-wire bus detected at library instance creation or at recent bus iteration.
 
 #### See also
 [getDevices()](#getDevices)
@@ -887,6 +900,7 @@ Number of DS18B20 sensors on the one-wire bus.
 
 
 <a id="isPower"></a>
+
 ## isPowerExternal(), isPowerParasite()
 
 #### Description
@@ -906,11 +920,11 @@ Flag about external or parasitic power mode.
 
 
 <a id="setLastResult"></a>
+
 ## setLastResult()
 
 #### Description
 The method sets or initializes the internal status of recent processing on the one-wire bus to input value.
-
 * Without input parameter the method initializes internal status to success result code with class constant [SUCCESS](#results).
 * The method without input parameter is usually called right before any operation on the bus in order to reset the internal status or in methods without bus communication.
 
@@ -934,6 +948,7 @@ New (actual) result code of recent operation from [Result and error codes](#resu
 
 
 <a id="getLastResult"></a>
+
 ## getLastResult()
 
 #### Description
@@ -955,11 +970,11 @@ Result code of the recent processing from [Result and error codes](#results).
 
 
 <a id="isResult"></a>
+
 ## isSuccess(), isError()
 
 #### Description
 The method returns a logical flag whether the recent operation was successful or failed respectivelly.
-
 * The corresponding result code can be obtained by the method [getLastResult()]((#getLastResult).
 
 #### Syntax
@@ -979,12 +994,12 @@ Flag about successful or failed processing of the recent operation.
 
 
 <a id="getPointer"></a>
+
 ## getAddressRef(), getScratchpadRef()
 
 #### Description
 Corresponding method returns pointer to the internal ROM address or internal
 scratchpad memory of a selected sensor.
-
 * Methods are useful when just reading is used and there is no need to copy
   those memory arrays to separate array variables in a sketch.
 
@@ -1007,6 +1022,7 @@ Pointer to a byte array memory inside the library instance object.
 
 
 <a id="cpyAddress"></a>
+
 ## cpyAddress()
 
 #### Description
@@ -1042,6 +1058,7 @@ void setup()
 
 
 <a id="cpyScratchpad"></a>
+
 ## cpyScratchpad()
 
 #### Description
@@ -1077,6 +1094,7 @@ void setup()
 
 
 <a id="cpySernum"></a>
+
 ## cpySernum()
 
 #### Description

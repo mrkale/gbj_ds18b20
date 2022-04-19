@@ -14,8 +14,8 @@
   Author: Libor Gabaj
 */
 #include <Arduino.h>
-#include <unity.h>
 #include <gbj_ds18b20.h>
+#include <unity.h>
 
 // Basic setup
 const unsigned char PIN_ONEWIRE = 4; // Pin for one-wire bus
@@ -172,36 +172,37 @@ void test_device_resolution_factory(void)
   TEST_ASSERT_EQUAL_UINT8(12, ds.getResolutionBits());
 }
 
-void setup() {
-    UNITY_BEGIN();
+void setup()
+{
+  UNITY_BEGIN();
 
-    RUN_TEST(test_setup_familycode);
-    RUN_TEST(test_setup_crc);
+  RUN_TEST(test_setup_familycode);
+  RUN_TEST(test_setup_crc);
 
-    RUN_TEST(test_bus_sensors);
+  RUN_TEST(test_bus_sensors);
 
-    RUN_TEST(test_device_measure);
-    RUN_TEST(test_device_familycode);
-    RUN_TEST(test_device_id);
-    RUN_TEST(test_device_pin);
+  RUN_TEST(test_device_measure);
+  RUN_TEST(test_device_familycode);
+  RUN_TEST(test_device_id);
+  RUN_TEST(test_device_pin);
 
-    RUN_TEST(test_device_temp_ini);
-    RUN_TEST(test_device_temp_min);
-    RUN_TEST(test_device_temp_max);
-    RUN_TEST(test_device_temp_cur);
+  RUN_TEST(test_device_temp_ini);
+  RUN_TEST(test_device_temp_min);
+  RUN_TEST(test_device_temp_max);
+  RUN_TEST(test_device_temp_cur);
 
-    RUN_TEST(test_device_alarm_low);
-    RUN_TEST(test_device_alarm_high);
-    RUN_TEST(test_device_alarm_low_factory);
-    RUN_TEST(test_device_alarm_high_factory);
+  RUN_TEST(test_device_alarm_low);
+  RUN_TEST(test_device_alarm_high);
+  RUN_TEST(test_device_alarm_low_factory);
+  RUN_TEST(test_device_alarm_high_factory);
 
-    RUN_TEST(test_device_resolution_12);
-    RUN_TEST(test_device_resolution_11);
-    RUN_TEST(test_device_resolution_10);
-    RUN_TEST(test_device_resolution_9);
-    RUN_TEST(test_device_resolution_factory);
+  RUN_TEST(test_device_resolution_12);
+  RUN_TEST(test_device_resolution_11);
+  RUN_TEST(test_device_resolution_10);
+  RUN_TEST(test_device_resolution_9);
+  RUN_TEST(test_device_resolution_factory);
 
-    UNITY_END();
+  UNITY_END();
 }
 
-void loop(){}
+void loop() {}

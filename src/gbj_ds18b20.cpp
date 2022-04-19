@@ -1,5 +1,4 @@
 #include "gbj_ds18b20.h"
-const String gbj_ds18b20::VERSION = "GBJ_DS18B20 1.0.0";
 
 gbj_ds18b20::ResultCodes gbj_ds18b20::powering()
 {
@@ -55,6 +54,7 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::sensors()
   {
     setLastResult(ResultCodes::ERROR_NO_DEVICE);
   }
+  bus_.sensors = iterations;
   iterations = 0;
   reset_search();
   return getLastResult();

@@ -38,24 +38,24 @@
 #elif defined(PARTICLE)
   #include <Particle.h>
 #endif
-#include <OneWire.h>
+#include "OneWire.h"
 
 class gbj_ds18b20 : public OneWire
 {
 public:
-  static const String VERSION;
+  const char *VERSION = "GBJ_DS18B20 1.1.0";
 
   enum ResultCodes : uint8_t
   {
-    SUCCESS = 0,
-    END_OF_LIST = 1,
-    ERROR_NO_DEVICE = 255,
-    ERROR_CRC_ADDRESS = 254,
-    ERROR_CRC_SCRATCHPAD = 253,
-    ERROR_NO_ALARM = 252,
-    ERROR_ALARM_LOW = 251,
-    ERROR_ALARM_HIGH = 250,
-    ERROR_CONVERSION = 249,
+    SUCCESS,
+    END_OF_LIST,
+    ERROR_NO_DEVICE,
+    ERROR_CRC_ADDRESS,
+    ERROR_CRC_SCRATCHPAD,
+    ERROR_NO_ALARM,
+    ERROR_ALARM_LOW,
+    ERROR_ALARM_HIGH,
+    ERROR_CONVERSION,
   };
 
   enum Params : uint8_t
