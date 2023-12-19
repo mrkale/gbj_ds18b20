@@ -34,12 +34,6 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 * **ds18b20.cpp**: Test suite providing test cases for all relevant public methods with connected real temperature sensor. Its ROM address should be set in the code of the test file directly.
 
 
-<a id="constants"></a>
-
-## Constants
-* **VERSION**: Name and semantic version of the library.
-
-
 <a id="params"></a>
 
 #### Parameters for buffers

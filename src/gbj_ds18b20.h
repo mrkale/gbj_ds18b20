@@ -43,8 +43,6 @@
 class gbj_ds18b20 : public OneWire
 {
 public:
-  const char *VERSION = "GBJ_DS18B20 1.1.0";
-
   enum ResultCodes : uint8_t
   {
     SUCCESS,

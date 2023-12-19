@@ -19,18 +19,24 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::devices()
   while (search(rom_.buffer))
   {
     if (rom_.address.crc != crc8(rom_.buffer, Params::ADDRESS_LEN - 1))
+    {
       return setLastResult(ResultCodes::ERROR_CRC_ADDRESS);
+    }
     bus_.devices++;
     if (getFamilyCode() == Params::FAMILY_CODE)
     {
       bus_.sensors++;
       if (isSuccess(readScratchpad()))
+      {
         bus_.resolution = max(bus_.resolution, getResolution());
+      }
     }
   }
   reset_search();
   if (bus_.devices == 0)
+  {
     setLastResult(ResultCodes::ERROR_NO_DEVICE);
+  }
   return getLastResult();
 }
 
@@ -41,9 +47,13 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::sensors()
   while (search(rom_.buffer))
   {
     if (getFamilyCode() != Params::FAMILY_CODE)
+    {
       continue;
+    }
     if (isSuccess(readScratchpad()))
+    {
       iterations++;
+    }
     return getLastResult();
   }
   if (iterations)
@@ -67,7 +77,9 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::alarms()
   while (search(rom_.buffer, false))
   {
     if (getFamilyCode() != Params::FAMILY_CODE)
+    {
       continue;
+    }
     if (isSuccess(readScratchpad()))
     {
       iterations++;
@@ -75,14 +87,18 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::alarms()
       if (getTemperature() <= getAlarmLow())
       {
         if (bus_.alarmHandlerLow)
+        {
           bus_.alarmHandlerLow();
+        }
         setLastResult(ResultCodes::ERROR_ALARM_LOW);
       }
       // Alarm high
       if (getTemperature() >= getAlarmHigh())
       {
         if (bus_.alarmHandlerHigh)
+        {
           bus_.alarmHandlerHigh();
+        }
         setLastResult(ResultCodes::ERROR_ALARM_HIGH);
       }
     }
@@ -111,11 +127,15 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::readScratchpad()
   read_bytes(memory_.buffer, Params::SCRATCHPAD_LEN);
   // Check zero config register - no sensor on the bus
   if (memory_.scratchpad.config == 0)
+  {
     return setLastResult(ResultCodes::ERROR_NO_DEVICE);
+  }
   // Check scratchpad CRC
   if (memory_.scratchpad.crc !=
       crc8(memory_.buffer, Params::SCRATCHPAD_LEN - 1))
+  {
     return setLastResult(ResultCodes::ERROR_CRC_SCRATCHPAD);
+  }
   return getLastResult();
 }
 
@@ -130,13 +150,17 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::writeScratchpad()
   write(memory_.scratchpad.config, isPowerParasite());
   // Read scratchpad for checking
   if (isError(readScratchpad()))
+  {
     return getLastResult();
+  }
   // Copy scratchpad to EEPROM
   select(rom_.buffer);
   write(CommandsFnc::COPY_SCRATCHPAD);
   // Wait 10 ms in parasitic power mode according to datasheet
   if (isPowerParasite())
+  {
     delay(10);
+  }
   return getLastResult();
 }
 
@@ -152,7 +176,9 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::conversion()
 gbj_ds18b20::ResultCodes gbj_ds18b20::measureTemperature(const Address address)
 {
   if (isError(cpyRom(address)))
+  {
     return getLastResult();
+  }
   reset();
   select(rom_.buffer);
   write(CommandsFnc::CONVERT_T, isPowerParasite());
@@ -170,7 +196,9 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::cpyRom(const Address address)
   // Check ROM CRC
   if (address[Params::ADDRESS_LEN - 1] !=
       crc8(address, Params::ADDRESS_LEN - 1))
+  {
     return setLastResult(ResultCodes::ERROR_CRC_ADDRESS);
+  }
   // Copy address to buffer
   memcpy(rom_.buffer, address, Params::ADDRESS_LEN);
   return getLastResult();
