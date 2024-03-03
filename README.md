@@ -76,6 +76,7 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 * [gbj_ds18b20()](#constructor)
 * [**alarms()**](#alarms)
 * [**conversion()**](#conversion)
+* [**devices()**](#devices)
 * [**measureTemperature()**](#measureTemperature)
 * [**sensors()**](#sensors)
 
@@ -344,6 +345,35 @@ Result code from [Result and error codes](#results).
 [alarms()](#alarms)
 
 [getTemperature()](#getTemperature)
+
+[Back to interface](#interface)
+
+
+<a id="devices"></a>
+
+## devices()
+
+#### Description
+The method counts all active devices on the one-wire bus, counts temperature sensors from them, and calculates maximal resolution of them.
+* Results are available by corresponding getters.
+
+#### Syntax
+    gbj_ds18b20::ResultCodes devices()
+
+#### Parameters
+None
+
+#### Returns
+Result code about detecting recent sensor on the bus defined by one of [Result and error codes](#results).
+
+#### See also
+[isSuccess()](#isResult)
+
+[getDevices()](#getDevices)
+
+[getSensors()](#getSensors)
+
+[getResolution()](#getResolution)
 
 [Back to interface](#interface)
 

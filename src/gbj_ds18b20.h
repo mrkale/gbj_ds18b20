@@ -105,9 +105,25 @@ public:
     bus_.alarmHandlerLow = alarmHandlerLow;
     bus_.alarmHandlerHigh = alarmHandlerHigh;
     if (isError(powering()))
+    {
       return;
+    }
     devices();
   }
+
+  /*
+    Calculate statistics of all active devices on the bus
+
+    DESCRIPTION:
+    The method counts all active devices on the one-wire bus, counts temperature
+    sensors from them, and calculates maximal resolution of them.
+    - Results are available by corresponding getters.
+
+    PARAMETERS: None
+
+    RETURN: Result code.
+  */
+  ResultCodes devices();
 
   /*
     Iterate over supported sensors on the bus
@@ -353,19 +369,26 @@ private:
   {
     // Resolutions in bits - Values { 0x1F, 0x3F, 0x5F, 0x7F }
     uint8_t tempBits[4] = { 9, 10, 11, 12 };
-    uint8_t tempMask[4] = { 0xF8, 0xFC, 0xFE, 0xFF }; // LSB bits masks
+    // LSB bits masks
+    uint8_t tempMask[4] = { 0xF8, 0xFC, 0xFE, 0xFF };
+    // Maximal conversion times in milliseconds
     uint16_t tempMillis[4] = {
       94,
       188,
       375,
       750
-    }; // Maximal conversion times in milliseconds
+    };
     uint8_t pinBus;
-    uint8_t resolution; // The highest resolution of all devices
-    bool powerExternal; // Flag about all devices powered externally
-    uint8_t devices; // The number of all devices on the bus
-    uint8_t sensors; // The number of temperature sensors on the bus
-    Handler *alarmHandlerLow; // Global alarm handlers
+    // The highest resolution of all devices
+    uint8_t resolution;
+    // Flag about all devices powered externally
+    bool powerExternal;
+    // The number of all devices on the bus
+    uint8_t devices;
+    // The number of temperature sensors on the bus
+    uint8_t sensors;
+    // Global alarm handlers
+    Handler *alarmHandlerLow;
     Handler *alarmHandlerHigh;
   } bus_;
 
@@ -374,9 +397,10 @@ private:
     ResultCodes lastResult;
   } status_;
 
-  ResultCodes devices(); // Statistics of devices on the bus
-  ResultCodes powering(); // Detect power mode
-  ResultCodes cpyRom(const Address address); // Copy address to ROM buffer
+  // Detect power mode
+  ResultCodes powering();
+  // Copy address to ROM buffer
+  ResultCodes cpyRom(const Address address);
   inline void resetRom() { memset(rom_.buffer, 0, Params::ADDRESS_LEN); }
   ResultCodes conversionWait();
   ResultCodes readScratchpad();

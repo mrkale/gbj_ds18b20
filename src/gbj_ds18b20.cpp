@@ -13,7 +13,7 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::powering()
 gbj_ds18b20::ResultCodes gbj_ds18b20::devices()
 {
   setLastResult();
-  // Count all devices on the bus
+  // Count all active devices on the bus
   bus_.devices = 0;
   bus_.sensors = 0;
   while (search(rom_.buffer))
@@ -23,9 +23,11 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::devices()
       return setLastResult(ResultCodes::ERROR_CRC_ADDRESS);
     }
     bus_.devices++;
+    // Count all active temperature sensors on the bus
     if (getFamilyCode() == Params::FAMILY_CODE)
     {
       bus_.sensors++;
+      // Detect maximal resolution of all active temperature sensors on the bus
       if (isSuccess(readScratchpad()))
       {
         bus_.resolution = max(bus_.resolution, getResolution());
