@@ -48,7 +48,8 @@ The subfolder `tests` in the folder `extras`, i.e., `gbj_ds18b20/extras/test`, c
 #### Result and error codes
 * **SUCCESS** (`ResultCodes::SUCCESS`): Successful processing of the recent function.
 * **END\_OF\_LIST** (`ResultCodes::END_OF_LIST`): Last sensor on the bus has been processed.
-* **ERROR\_NO\_DEVICE** (`ResultCodes::ERROR_NO_DEVICE`): No sensor on the one-wire bus detected.
+* **ERROR\_NO\_DEVICE** (`ResultCodes::ERROR_NO_DEVICE`): No device on the one-wire bus detected, not only temperature ones.
+* **ERROR\_NO\_SENSOR** (`ResultCodes::ERROR_NO_SENSOR`): No temperature sensor on the one-wire bus detected.
 * **ERROR\_CRC\_ADDRESS** (`ResultCodes::ERROR_CRC_ADDRESS`): Bad hardware address of a sensor.
 * **ERROR\_CRC\_SCRATCHPAD** (`ResultCodes::ERROR_CRC_SCRATCHPAD`): Reading of a sensor's data buffer has failed.
 * **ERROR\_NO\_ALARM** (`ResultCodes::ERROR_NO_ALARM`): No temperature alarm detected.

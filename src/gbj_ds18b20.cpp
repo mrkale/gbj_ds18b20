@@ -58,13 +58,13 @@ gbj_ds18b20::ResultCodes gbj_ds18b20::sensors()
     }
     return getLastResult();
   }
-  if (iterations)
+  if (iterations > 0)
   {
     setLastResult(ResultCodes::END_OF_LIST);
   }
   else
   {
-    setLastResult(ResultCodes::ERROR_NO_DEVICE);
+    setLastResult(ResultCodes::ERROR_NO_SENSOR);
   }
   bus_.sensors = iterations;
   iterations = 0;

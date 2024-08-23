@@ -35,10 +35,8 @@
   #include <inttypes.h>
 #elif defined(ESP8266) || defined(ESP32)
   #include <Arduino.h>
-#elif defined(PARTICLE)
-  #include <Particle.h>
 #endif
-#include "OneWire.h"
+#include <OneWire.h>
 
 class gbj_ds18b20 : public OneWire
 {
@@ -48,6 +46,7 @@ public:
     SUCCESS,
     END_OF_LIST,
     ERROR_NO_DEVICE,
+    ERROR_NO_SENSOR,
     ERROR_CRC_ADDRESS,
     ERROR_CRC_SCRATCHPAD,
     ERROR_NO_ALARM,
